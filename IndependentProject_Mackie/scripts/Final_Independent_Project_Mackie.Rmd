@@ -1,0 +1,17 @@
+---
+title: "Final Independent Project"
+author: "Marisa Mackie"
+date: "`r Sys.Date()`"
+output: 
+  prettydoc::html_pretty:
+    toc: TRUE
+    theme: architect
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.path = "../output/")
+```
+
