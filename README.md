@@ -8,18 +8,22 @@ This project is related to my Master's Thesis project:
 **Mapping chemical stimuli to their cognate neurons in _Pristionchus pacificus_ via genetically encoded calcium indicators**
 
 
-I work with nematode (microscopic roundworm) species _Pristionchus pacificus_ and am interested in studying their amphid neurons, which are responsible for the sensing of chemicals in their environment--that is, odorants and tastants. There are 12 pairs of these amphid neurons, however, it is unknown which neurons specifically are responsible for sensing particular volatile odors or water-soluble tastants. My goal is to map chemical stimuli to their cognate neurons. 
+I work with nematode (microscopic roundworm) species _Pristionchus pacificus_ and am interested in studying their amphid neurons, which are responsible for the sensing of chemicals in their environment--that is, odorants and tastants. There are 12 pairs of these amphid neurons, however, it is unknown which neurons specifically correspond to particular volatile odors or water-soluble tastants. My goal is to map chemical stimuli to their cognate neurons.
 
-To do this, I have used genetically-encoded calcium indicators (GECIs) (i.e., GCaMP) to measure neuron response to chemical stimuli in real time. Neuron response is measured as percent change in fluorescence intensity (df/f) over time. Raw data are collected in the form of text files (.log) with 9 columns of comma-delimited data.
+To do this, I have used genetically-encoded calcium indicators (GECIs) (i.e., GCaMP) to measure neuron response to chemical stimuli in real time. Neuron response is measured and ultimately calculated as percent change in fluorescence intensity (df/f) over time. Raw data for each individual worm are collected in the form of text files (.log) with 9 columns of comma-delimited data.
 
 ### Purpose:
 
-The purpose of my script is to grab my raw data files from each folder, calculate df/f, average these values, and visualize them on plots.
+The purpose of my script is to grab each raw data file from each set of folders, calculate df/f, average these values, and visualize them on plots.
 
 
 ### Structure:
 
 In the **data** folder, you will find all folders containing all text (.log) files that will be analyzed, as well as a data dictionary.
+
+The folder system is as follows:
+
+data --> worm & stimulant folder --> journal folder --> dated data folder --> .log file
 
 In the **scripts** folder, you will find all code used to analyze the data.
 
