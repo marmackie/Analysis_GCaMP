@@ -21,7 +21,6 @@ library(tidytext)
 stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
 # lists all folders in that path
 stim_folders <- dir(path = stim_path)
-stim_folders
 
 # Iterates through each stimulant folder
 for (i in 1:length(stim_folders)){
@@ -30,7 +29,6 @@ for (i in 1:length(stim_folders)){
   jnl_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i])
   # lists all JNL folders in that path
   jnl_folders <- dir(path = jnl_path)
-  jnl_folders
   
   # Iterates through each JNL folder within the current stimulant folder
   for (j in 1:length(jnl_folders)){
@@ -38,7 +36,6 @@ for (i in 1:length(stim_folders)){
     worm_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j])
     # lists all worm folders in that path
     worm_folders <- dir(path = worm_path)
-    worm_folders
     
     # Iterates through each worm folder within the current JNL folder
     for (k in 1:length(worm_folders)){
@@ -47,7 +44,8 @@ for (i in 1:length(stim_folders)){
       logfile_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j], worm_folders[k])
       # lists all logfiles in that path (contains ".log")
       logfiles <- dir(path = logfile_path, pattern = ".log")
-      logfiles
+      
+      ### 1b - Read in data & calculate dff -----
       
       # reads in current logfile into rawdata
       rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
@@ -73,13 +71,13 @@ for (i in 1:length(stim_folders)){
       write_csv(wormdata, here("IndependentProject_Mackie", "data", "clean_csv", paste(stim_folders[i],jnl_folders[j],logfiles, sep = "_")))
       
       
-      ### 1b - Plotting dff of individual worms --------
+      ### 1c - Plotting dff of individual worms -----
       
       # generates plot of % df/f over time in s
       ggplot()+
         
         # axis scales by 10
-        scale_x_continuous(breaks = seq(from = 10, to = 180, by=10))+
+        scale_x_continuous(breaks = seq(from = 0, to = 180, by=10))+
         
         # adds red vertical line to notable timepoints for stimulant ON & OFF
         geom_vline(xintercept = 10, color = "red")+
@@ -121,7 +119,7 @@ for (i in 1:length(stim_folders)){
 "clean csv files generated (see data)"
 "individual dff plots generated (see outputs)"
 
-#### Part 2 - Calculate & Plot Average dff by Stimulant & JNL ####-------------
+#### Part 2 - Calculate & Plot Average dff (by Stimulant & JNL) ####-------------
 
 # points to location of csv file on the computer
 csv_path <- here("IndependentProject_Mackie", "data", "clean_csv")
