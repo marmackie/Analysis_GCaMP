@@ -15,3 +15,62 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.path = "../output/")
 ```
 
+## Introduction
+
+
+
+## Libraries
+These are the necessary libraries.
+```{r}
+library(here)
+library(tidyverse)
+library(tidytext)
+```
+
+## Data
+Data is stored in the **data** folder.
+This data was collected and stored in a _.log_ file, in the form of 9 comma-delimited columns.
+The data is organized in folders in this order:
+_worm strain & stimulant_ --> _tracking Journal_ --> _worm ID_ --> .log file
+
+During analysis, we will be using a _for loop_ to iterate through each of these folders & grab the worm data
+
+
+## Functions
+For the purposes of this project, I have created a handful of functions that we will need to use for data analysis:
+
+**dff()**
+The entire project is based around the measurement of percent change in fluorescence in the neuron over time. This is called _deltaf/f_ (a.k.a _dff_).
+
+Therefore, we require a function to calculate dff from our raw fluorescence data.
+
+```{r}
+
+```
+
+
+**e_to_num()**
+This function is due to an issue I ran into while analyzing fluorescence data.
+The fluorescence data is stored in scientific notation, e.g. _1.2345e+008_.
+However, R reads this as a _string_ due to the "e" and "+", but we need R to read it as a _numeric_ so we can use it for mathematical calculations (i.e., calculating dff).
+
+Therefore, we require a function to convert this character into a double. In doing so, we would convert it from scientific notation to its expanded form.
+
+```{r}
+### Function to convert strings of scientific notation containing "e" (i.e., 1.234e+005) to numeric in expanded form (double)
+e_to_num <- function(string) {
+  # finds first instance of "e" in the string, subsets everything before it & converts it to a numeric (double)
+  value <- as.numeric(substring(string, 1, unlist(gregexpr("e", string))[1]))
+  # finds first instance of "+" in the string, subsets everything after it & converts it to a numeric (double)
+  # note: this number is the exponent, so we will set 10^exponent
+  exponent <- 10^(as.numeric(str_sub(string, unlist(gregexpr("\\+", string))[1]+1, str_length(string))))
+  # multiplies value by the 10^n exponent
+  expanded_num <- value*exponent
+  # returns numeric (double) of original string in expanded form
+  return(expanded_num)
+}
+```
+
+
+## Analysis
+

@@ -1,0 +1,12 @@
+﻿Variable,Description,Units
+strain_stim,worm strain (promoter) and stimulant used,
+jnl,tracking journal used (time that stimulant is ON vs OFF),
+frame,frame number during recording,
+time_ms,timepoint during recording,milliseconds (ms)
+fluor,background-subtracted fluorescence,
+bg,background fluorescence value,
+total_fluor,total fluorescence,
+ROI,size of Region Of Interest,
+bg2,background value,
+xpos,x position of neuron during recording,
+ypos,y position of neuron during recording,
