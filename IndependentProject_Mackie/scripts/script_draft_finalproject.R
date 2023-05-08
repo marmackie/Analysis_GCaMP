@@ -17,6 +17,9 @@ library(tidytext)
 
 ### 1a - Iterate through stimulant, JNL, and worm folders ###-----
 
+# sets value for max frames (rows) as -1 (for use later)
+max_frames <- -1
+
 # points to worm strain + stimulant folder on the computer
 stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
 # lists all folders in that path
@@ -109,6 +112,8 @@ for (i in 1:length(stim_folders)){
       ggsave(here("IndependentProject_Mackie","output","individual_dff",paste("plot",stim_folders[i],jnl_folders[j],worm_folders[k],".png", sep = "-")),
              width = 6, height = 6)
       
+      #### put max frames thing here
+      
     } # ends iteration through worm folders
     
   } # ends iteration through JNL folders
@@ -125,12 +130,19 @@ for (i in 1:length(stim_folders)){
 csv_path <- here("IndependentProject_Mackie", "data", "clean_csv")
 # lists all .csv files in that path
 csvfiles <- dir(path = csv_path)
-csvfiles
+
+##### Put this max_frames section into worm iteration #####
+# calculates difference between current frames & max frames
+result <- nrow(wormdata) - max_frames
+# if current frames > max_frames, set current frames as new max frames
+ifelse(result > 0,
+       max_frames <- nrow(wormdata))
 
 # pre-allocates dataframe to hold all dff values
-dff_all <- data.frame(matrix(ncol = 4, nrow = length(csvfiles)))
+dff_all <- data.frame(matrix(ncol = length(csvfiles), nrow = max_frames))
 # column names
-colnames(dff_all) <- c("strain_Stim","jnl","worm","dff")
+colnames(dff_all) <- c
+
                       
 # Iterates over each csv file
 for (i in 1:length(csvfiles)){
