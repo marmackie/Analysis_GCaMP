@@ -13,9 +13,9 @@ library(tidyverse)
 library(here)
 library(tidytext)
 
-#### Part 1 - Iterate through folders, grab data, convert to clean .csv ####----------
+#### Part 1 - Get data, convert to clean csv, calculate dff, plot individual dff ####----------
 
-### Iteration through stim, jnl, and worm folders ####-----
+### 1a - Iterate through stimulant, JNL, and worm folders ###-----
 
 # points to worm strain + stimulant folder on the computer
 stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
@@ -51,7 +51,6 @@ for (i in 1:length(stim_folders)){
       
       # reads in current logfile into rawdata
       rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
-      glimpse(rawdata)
       
       wormdata <- rawdata %>% 
         # adds columns for stimulant and JNL type
@@ -59,10 +58,9 @@ for (i in 1:length(stim_folders)){
                jnl = jnl_folders[j],
                # renames default column names (Xn) to specified variable names
                frame = rawdata$X1,
-               time_ms = rawdata$X2,
+               time_s = (rawdata$X2)/1000, # converts time in ms to s
                fluor = rawdata$X3,
-               # only keeps mutated columns
-               .keep = "used")
+               .keep = "used") # only keeps mutated columns
       
       # For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)
       wormdata <- wormdata %>% 
@@ -70,10 +68,48 @@ for (i in 1:length(stim_folders)){
                fluor = e_to_num(fluor)) %>% 
         # adds column for calculating dff
         mutate(dff = dff(fluor))
-      glimpse(wormdata)
       
       # converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID
       write_csv(wormdata, here("IndependentProject_Mackie", "data", "clean_csv", paste(stim_folders[i],jnl_folders[j],logfiles, sep = "_")))
+      
+      
+      ### 1b - Plotting dff of individual worms --------
+      
+      # generates plot of % df/f over time in s
+      ggplot()+
+        
+        # axis scales by 10
+        scale_x_continuous(breaks = seq(from = 10, to = 180, by=10))+
+        
+        # adds red vertical line to notable timepoints for stimulant ON & OFF
+        geom_vline(xintercept = 10, color = "red")+
+        geom_vline(xintercept = 130, color = "red")+
+        
+        # specifies line plot, & size/color of line
+        geom_line(data = wormdata,
+                  mapping = aes(x = time_s, y = dff),
+                  color = "black", linewidth = 1)+
+        
+        # specifies plot labels
+        labs(x = "Time (s)",
+             y = "% dF/F",
+             title = "Change in fluorescence over time",
+             subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+             caption = worm_folders[k])+
+        
+        
+        # specifies color and size of plot elements
+        theme(plot.title = element_text(size = 12, face = "bold"),
+              plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+              plot.caption = element_text(size = 8, color = "gray30"),
+              axis.title = element_text(size = 10))
+      
+      ##### possibly puts gray box where stimulant on/off is (note, youll need a case_when() to do the different ones)
+      #panel.first = rect(c(10,130), usr[3] col = "gray60", border = NA)
+      
+      # saves plot to output folder, and names it by worm folder name
+      ggsave(here("IndependentProject_Mackie","output","individual_dff",paste("plot",stim_folders[i],jnl_folders[j],worm_folders[k],".png", sep = "-")),
+             width = 6, height = 6)
       
     } # ends iteration through worm folders
     
@@ -81,8 +117,11 @@ for (i in 1:length(stim_folders)){
   
 } # ends iteration through stim_folders
 
+"Part 1 complete!"
+"clean csv files generated (see data)"
+"individual dff plots generated (see outputs)"
 
-#### Part 2 - Calculate dff & plot for individual worms ####---------------
+#### Part 2 - Calculate & Plot Average dff by Stimulant & JNL ####-------------
 
 # points to location of csv file on the computer
 csv_path <- here("IndependentProject_Mackie", "data", "clean_csv")
@@ -110,3 +149,6 @@ for (i in 1:length(csvfiles)){
   dff_all$dff <- dff(current_data$fluor[i])
   
 }
+
+"Part 2 complete!"
+"average dff plots generated (see outputs)"
