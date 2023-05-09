@@ -43,6 +43,13 @@ dff <- function(data) {
 
 ### 1a - Iterate through stimulant, JNL, and worm folders ###-----
 
+# pre-allocates a dataframe to hold information for convenience later
+# 4 columns, but we will append more rows later
+size_mat <- data.frame(matrix(ncol = 4))
+
+# worm_num is the current worm being analyzed overall
+worm_num = 0
+
 # points to worm strain + stimulant folder on the computer
 stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
 # lists all folders in that path
@@ -65,6 +72,9 @@ for (i in 1:length(stim_folders)){
     
     # Iterates through each worm folder within the current JNL folder
     for (k in 1:length(worm_folders)){
+      
+      # adds +1 to worm count
+      worm_num = worm_num + 1
       
       # points to the location of tracked worm data (logfiles) on the computer
       logfile_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j], worm_folders[k])
@@ -137,11 +147,25 @@ for (i in 1:length(stim_folders)){
       # number of frames is the number of rows within wormdata
       frames <- nrow(wormdata)
       
+      # dataframe to store time information (to use for plotting later)
+      time_data <- wormdata$time_s
+      
     } # ends iteration through worm folders
+    
+    # adds column names to size_mat
+    colnames(size_mat) <- c("frames","stim_jnl","worms_jnl","jnl_start")
+    #
+    size_mat[nrow(size_mat) + 1,] = c(frames,
+                                      paste(stim_folders[i],jnl_folders[j],sep = "_"), # stimulant + jnl
+                                      k, # final worm of each journal (= worms per journal)
+                                      worm_num) # worm count (= total worms up to that journal)
     
   } # ends iteration through JNL folders
   
 } # ends iteration through stim_folders
+
+# drop first row (Nas) from size_mat
+size_mat <- drop_na(size_mat)
 
 "Part 1 complete!"
 "clean csv files generated (see data)"
@@ -157,7 +181,7 @@ csvfiles <- dir(path = csv_path)
 # pre-allocates a dataframe to store all dff values
 dff_all <- data.frame(matrix(nrow = frames, ncol = length(csvfiles)))
 # adds column names as dff{n}
-colnames(dff_all) <- c(paste("dff",(1:length(csvfiles)),sep = ""))
+colnames(dff_all) <- c(paste("dff_worm",(1:length(csvfiles)),sep = ""))
 
 # Iterates through each csv file (i.e., for each worm)
 for (l in 1:length(csvfiles)){
@@ -171,33 +195,76 @@ for (l in 1:length(csvfiles)){
 glimpse(dff_all)
 
 "Part 2 complete!"
-"Gathered all dff values into dff_all. Each column is 1 worm"
+"Gathered all dff values into dff_all."
+
 
 #### Part 3 - Average dff values by Stimulant + Journal & Plot them! ####-------------
 
+# pre-allocates a dataframe to store all average dff values (averaged by journal)
+# 2 columns because there are 2 unique stim + jnl combinations
+avg_all <- data.frame(matrix(nrow = frames, ncol = nrow(size_mat)))
+# adds column names as stim_jnl{n}
+colnames(avg_all) <- c(paste("stim_jnl",(1:nrow(size_mat)),sep = ""))
+
+# iterates over each row in size_mat (i.e., m = the current stim_jnl)
+for (m in 1:nrow(size_mat)){
+  
+  # if first stim_jnl, starts with 1st worm
+  ifelse(m == 1, start_worm <-  1,
+         # else, starts with 1st worm of the current journal
+         start_worm <- size_mat$jnl_start[m - 1])
+  
+  # ending worm = final worm of current stim_jnl
+  end_worm <- size_mat$jnl_start[m]
+  
+  # calculates averages across rows, only for worms that correspond to the current stim_jnl (removes NAs)
+  # stores this in column of avg_all corresponding to current stim_jnl
+  avg_all[m] <- rowMeans(dff_all[,start_worm:end_worm], na.rm = TRUE)
+  
+} # ends iteration for each jnl (row in size_mat)
 
 "Part 3 complete!"
-"Average dff plots generated (see outputs)"
-
-
-
-
-### for later
-
-# creates dataframe of all dff values for the current stim_jnl combination
-dff_jnl <- csv_data %>% 
+"Average dff calculated and stored in avg_all"
   
-  # selects only for specified columns
-  select(stim_jnl, time_s, dff) %>% 
+    
+
+### Part 4 - Plotting Average dff -----
   
-  # if it is NOT the 1st csv file 
-  # OR
-  # the current csv file's stim_jnl matches that of the previous csv file...
-  ifelse(l != 1 | csv_data$stim_jnl == stim_jnl,
-         # then add dff to the current dataframe
-         mutate(csv_data$dff))
+    # generates plot of average % df/f over time in s
+    ggplot(avg_data)+
+      
+    # axis scales by 10
+    #scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    
+    # adds red vertical line to notable timepoints for stimulant ON & OFF
+    geom_vline(xintercept = 10, color = "red")+
+    geom_vline(xintercept = 130, color = "red")+
+    
+    # specifies line plot, & size/color of line
+    geom_line(mapping = aes(x = time_s,
+                            y = avg_all),
+              color = "blue", linewidth = 2)+
+    
+    # specifies plot labels
+    labs(x = "Time (s)",
+         y = "% dF/F",
+         title = "Average Change in fluorescence over time",
+         subtitle = size_mat$stim_jnl[m])+ # current stimulant + jnl
+    
+    
+    # specifies color and size of plot elements
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+          plot.caption = element_text(size = 8, color = "gray30"),
+          axis.title = element_text(size = 10))
+  
+  # saves plot to output folder, and names it by worm folder name
+  ggsave(here("IndependentProject_Mackie","output","average_dff",paste("plot",size_mat$stim_jnl[m],".png", sep = "-")),
+         width = 6, height = 6)
+
 
 ### Notes to self:
 # you need to fix max_frames so that it is actually max_frames & so you can later do padding
 # you need to fix ggplot of individual & average plots so that red lines are in different spots based on the stim_jnl
 # possibly change the red lines to gray shaded area like in publications
+# rename size_mat to something that makes more sense ("conditions"?)

@@ -14,12 +14,12 @@ ggplot(DATAHERE)+
   
   geom_line(aes(x = time_ms,
                 y = dff),
-            color = "gray30", size = 2)+
+            color = "gray30", size = 1)+
   
   # specifies line plot, & size/color of line
   geom_line(aes(x = time_ms,
                 y = dff_avg),
-            color = "blue", size = 4)+
+            color = "blue", size = 2)+
   
   # specifies plot labels
   labs(x = "Time (ms)",
