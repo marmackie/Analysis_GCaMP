@@ -1,8 +1,8 @@
 ﻿Variable,Description,Units
-strain_stim,worm strain (promoter) and stimulant used,
-jnl,tracking journal used (time that stimulant is ON vs OFF),
+stim_jnl,"worm strain (promoter), stimulant, and tracking journal used",
 frame,frame number during recording,
-time_ms,timepoint during recording,milliseconds (ms)
+time_ms,timepoint ,milliseconds (ms)
+time_s,timepoint,seconds (s)
 fluor,background-subtracted fluorescence,
 bg,background fluorescence value,
 total_fluor,total fluorescence,

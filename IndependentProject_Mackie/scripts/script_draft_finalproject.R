@@ -13,12 +13,35 @@ library(tidyverse)
 library(here)
 library(tidytext)
 
+#### Functions ####----------------------------------------------------
+
+### Function to convert strings of scientific notation containing "e" (i.e., 1.234e+005) to numeric in expanded form (double)
+e_to_num <- function(string) {
+  # finds first instance of "e" in the string, subsets everything before it & converts it to a numeric (double)
+  value <- as.numeric(substring(string, 1, unlist(gregexpr("e", string))[1]))
+  # finds first instance of "+" in the string, subsets everything after it & converts it to a numeric (double)
+  # note: this number is the exponent, so we will set 10^exponent
+  exponent <- 10^(as.numeric(str_sub(string, unlist(gregexpr("\\+", string))[1]+1, str_length(string))))
+  # multiplies value by the 10^n exponent
+  expanded_num <- value*exponent
+  # returns numeric (double) of original string in expanded form
+  return(expanded_num)
+}
+
+# Function for calculating df/f (% change in fluorescence)
+dff <- function(data) {
+  # sets baseline fluorescence
+  f0 <- mean(data[10:40]) # averages fluorescence data from frame 10-40 (1-4s)
+  # calculates df/f as a percentage
+  dff <- ((data - f0)/f0)*100
+  # returns dff
+  return(dff)
+}
+
+#### Analysis ####-----------------------------------------------------
 #### Part 1 - Get data, convert to clean csv, calculate dff, plot individual dff ####----------
 
 ### 1a - Iterate through stimulant, JNL, and worm folders ###-----
-
-# sets value for max frames (rows) as -1 (for use later)
-max_frames <- -1
 
 # points to worm strain + stimulant folder on the computer
 stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
@@ -54,9 +77,8 @@ for (i in 1:length(stim_folders)){
       rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
       
       wormdata <- rawdata %>% 
-        # adds columns for stimulant and JNL type
-        mutate(strain_stim = stim_folders[i],
-               jnl = jnl_folders[j],
+        # adds column for stimulant and JNL type
+        mutate(stim_jnl = paste(stim_folders[i],jnl_folders[j], sep = "_"),
                # renames default column names (Xn) to specified variable names
                frame = rawdata$X1,
                time_s = (rawdata$X2)/1000, # converts time in ms to s
@@ -112,7 +134,8 @@ for (i in 1:length(stim_folders)){
       ggsave(here("IndependentProject_Mackie","output","individual_dff",paste("plot",stim_folders[i],jnl_folders[j],worm_folders[k],".png", sep = "-")),
              width = 6, height = 6)
       
-      #### put max frames thing here
+      # number of frames is the number of rows within wormdata
+      frames <- nrow(wormdata)
       
     } # ends iteration through worm folders
     
@@ -124,41 +147,57 @@ for (i in 1:length(stim_folders)){
 "clean csv files generated (see data)"
 "individual dff plots generated (see outputs)"
 
-#### Part 2 - Calculate & Plot Average dff (by Stimulant & JNL) ####-------------
+#### Part 2 - Gather dff values into dff_all ####-------------
 
 # points to location of csv file on the computer
 csv_path <- here("IndependentProject_Mackie", "data", "clean_csv")
 # lists all .csv files in that path
 csvfiles <- dir(path = csv_path)
 
-##### Put this max_frames section into worm iteration #####
-# calculates difference between current frames & max frames
-result <- nrow(wormdata) - max_frames
-# if current frames > max_frames, set current frames as new max frames
-ifelse(result > 0,
-       max_frames <- nrow(wormdata))
+# pre-allocates a dataframe to store all dff values
+dff_all <- data.frame(matrix(nrow = frames, ncol = length(csvfiles)))
+# adds column names as dff{n}
+colnames(dff_all) <- c(paste("dff",(1:length(csvfiles)),sep = ""))
 
-# pre-allocates dataframe to hold all dff values
-dff_all <- data.frame(matrix(ncol = length(csvfiles), nrow = max_frames))
-# column names
-colnames(dff_all) <- c
-
-                      
-# Iterates over each csv file
-for (i in 1:length(csvfiles)){
+# Iterates through each csv file (i.e., for each worm)
+for (l in 1:length(csvfiles)){
   
   # reads in csv files
-  current_data <- read_csv(csvfiles[i])
+  csv_data <- read_csv(here("IndependentProject_Mackie", "data", "clean_csv", csvfiles[l]))
   
-  # gets the
-  
-  # gets the filename based on the current csv file
-  dff_all$filename[i] <- csvfiles[i]
-  
-  # calculates dff using fluorescence column
-  dff_all$dff <- dff(current_data$fluor[i])
-  
+  # stores dff column into dff_all
+  dff_all[l] <- csv_data$dff
 }
+glimpse(dff_all)
 
 "Part 2 complete!"
-"average dff plots generated (see outputs)"
+"Gathered all dff values into dff_all. Each column is 1 worm"
+
+#### Part 3 - Average dff values by Stimulant + Journal & Plot them! ####-------------
+
+
+"Part 3 complete!"
+"Average dff plots generated (see outputs)"
+
+
+
+
+### for later
+
+# creates dataframe of all dff values for the current stim_jnl combination
+dff_jnl <- csv_data %>% 
+  
+  # selects only for specified columns
+  select(stim_jnl, time_s, dff) %>% 
+  
+  # if it is NOT the 1st csv file 
+  # OR
+  # the current csv file's stim_jnl matches that of the previous csv file...
+  ifelse(l != 1 | csv_data$stim_jnl == stim_jnl,
+         # then add dff to the current dataframe
+         mutate(csv_data$dff))
+
+### Notes to self:
+# you need to fix max_frames so that it is actually max_frames & so you can later do padding
+# you need to fix ggplot of individual & average plots so that red lines are in different spots based on the stim_jnl
+# possibly change the red lines to gray shaded area like in publications
