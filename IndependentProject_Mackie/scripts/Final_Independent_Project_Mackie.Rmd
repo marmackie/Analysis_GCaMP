@@ -11,8 +11,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
-                      warning = FALSE,
-                      fig.path = "../output/")
+                      warning = FALSE)
 ```
 
 ## Introduction
@@ -541,7 +540,7 @@ for (n in 1:nrow(size_mat)){
   ggplot(plot_data)+
     
     # axis scales by 10
-    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
     
     # adds red vertical line to notable timepoints for stimulant ON & OFF
     geom_vline(xintercept = 10, color = "red")+
@@ -593,7 +592,7 @@ for (n in 1:nrow(size_mat)){
   avg_dff_plot <- ggplot(plot_data)+
     
     # axis scales by 10
-    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
     
     # adds red vertical line to notable timepoints for stimulant ON & OFF
     geom_vline(xintercept = 10, color = "red")+
@@ -859,7 +858,7 @@ for (n in 1:nrow(size_mat)){
   ggplot(plot_data)+
     
     # axis scales by 10
-    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
     
     # adds red vertical line to notable timepoints for stimulant ON & OFF
     geom_vline(xintercept = 10, color = "red")+
