@@ -45,7 +45,7 @@ dff <- function(data) {
 
 # pre-allocates a dataframe to hold information for convenience later
 # 4 columns, but we will append more rows later
-size_mat <- data.frame(matrix(ncol = 4))
+size_mat <- data.frame(matrix(ncol = 5))
 
 # worm_num is the current worm being analyzed overall
 worm_num = 0
@@ -153,12 +153,13 @@ for (i in 1:length(stim_folders)){
     } # ends iteration through worm folders
     
     # adds column names to size_mat
-    colnames(size_mat) <- c("frames","stim_jnl","worms_jnl","jnl_start")
-    #
+    colnames(size_mat) <- c("frames","stim_jnl","worms_jnl","worm_num","jnl_start")
+    # appends rows to size_mat
     size_mat[nrow(size_mat) + 1,] = c(frames,
                                       paste(stim_folders[i],jnl_folders[j],sep = "_"), # stimulant + jnl
                                       k, # final worm of each journal (= worms per journal)
-                                      worm_num) # worm count (= total worms up to that journal)
+                                      worm_num, # worm count (= total worms up to that journal)
+                                      worm_num - k + 1) # starting worm for each jnl
     
   } # ends iteration through JNL folders
   
@@ -167,9 +168,9 @@ for (i in 1:length(stim_folders)){
 # drop first row (Nas) from size_mat
 size_mat <- drop_na(size_mat)
 
-"Part 1 complete!"
-"clean csv files generated (see data)"
-"individual dff plots generated (see outputs)"
+"Part 1 complete!
+Clean csv files generated (see data)
+Individual dff plots generated (see outputs)"
 
 #### Part 2 - Gather dff values into dff_all ####-------------
 
@@ -194,8 +195,8 @@ for (l in 1:length(csvfiles)){
 }
 glimpse(dff_all)
 
-"Part 2 complete!"
-"Gathered all dff values into dff_all."
+"Part 2 complete!
+Gathered all dff values into dff_all."
 
 
 #### Part 3 - Average dff values by Stimulant + Journal & Plot them! ####-------------
@@ -212,10 +213,10 @@ for (m in 1:nrow(size_mat)){
   # if first stim_jnl, starts with 1st worm
   ifelse(m == 1, start_worm <-  1,
          # else, starts with 1st worm of the current journal
-         start_worm <- size_mat$jnl_start[m - 1])
+         start_worm <- size_mat$jnl_start[m])
   
   # ending worm = final worm of current stim_jnl
-  end_worm <- size_mat$jnl_start[m]
+  end_worm <- size_mat$worm_num[m]
   
   # calculates averages across rows, only for worms that correspond to the current stim_jnl (removes NAs)
   # stores this in column of avg_all corresponding to current stim_jnl
@@ -223,33 +224,45 @@ for (m in 1:nrow(size_mat)){
   
 } # ends iteration for each jnl (row in size_mat)
 
-"Part 3 complete!"
-"Average dff calculated and stored in avg_all"
-  
+"Part 3 complete!
+Average dff calculated and stored in avg_all"
     
 
 ### Part 4 - Plotting Average dff -----
+
+# pre-allocates dataframe to hold only the x & y values for plotting
+plot_data <- data.frame(matrix(nrow = frames, ncol = 2))
+# column names
+colnames(plot_data) <- c("x","y")
+
+# iterates for each journal (# of rows in size_mat)
+for (n in 1:nrow(size_mat)){
   
-    # generates plot of average % df/f over time in s
-    ggplot(avg_data)+
-      
+  # updates plot_data with appropriate data
+  plot_data <- plot_data %>% 
+    mutate(x = time_data, # assigns time data to x column
+           y = avg_all[,n]) # assigns current column of avg_all to y column
+  
+  # generates plot of average % df/f over time in s
+  ggplot(plot_data)+
+    
     # axis scales by 10
-    #scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
     
     # adds red vertical line to notable timepoints for stimulant ON & OFF
     geom_vline(xintercept = 10, color = "red")+
     geom_vline(xintercept = 130, color = "red")+
     
     # specifies line plot, & size/color of line
-    geom_line(mapping = aes(x = time_s,
-                            y = avg_all),
+    geom_line(mapping = aes(x = x,
+                            y = y),
               color = "blue", linewidth = 2)+
     
     # specifies plot labels
     labs(x = "Time (s)",
          y = "% dF/F",
          title = "Average Change in fluorescence over time",
-         subtitle = size_mat$stim_jnl[m])+ # current stimulant + jnl
+         subtitle = size_mat$stim_jnl[n])+ # current stimulant + jnl
     
     
     # specifies color and size of plot elements
@@ -259,9 +272,13 @@ for (m in 1:nrow(size_mat)){
           axis.title = element_text(size = 10))
   
   # saves plot to output folder, and names it by worm folder name
-  ggsave(here("IndependentProject_Mackie","output","average_dff",paste("plot",size_mat$stim_jnl[m],".png", sep = "-")),
+  ggsave(here("IndependentProject_Mackie","output","average_dff",paste("plot",size_mat$stim_jnl[n],".png", sep = "-")),
          width = 6, height = 6)
+  
+} # ends iteration
 
+"Part 4 complete!
+Average dff plots generated! (see outputs)"
 
 ### Notes to self:
 # you need to fix max_frames so that it is actually max_frames & so you can later do padding
