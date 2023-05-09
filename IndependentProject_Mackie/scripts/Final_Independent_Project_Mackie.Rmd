@@ -16,11 +16,29 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 ## Introduction
+This project is related to my Master's Thesis project:
 
+**Mapping chemical stimuli to their cognate neurons in _Pristionchus pacificus_ via genetically encoded calcium indicators**
+
+
+I work with nematode (microscopic roundworm) species _Pristionchus pacificus_ and am interested in studying their amphid neurons, which are responsible for the sensing of chemicals in their environment--that is, odorants and tastants. There are 12 pairs of these amphid neurons, however, it is unknown which neurons specifically correspond to particular volatile odors or water-soluble tastants. My goal is to map various chemical stimuli to their cognate neurons.
+
+To do this, I have used genetically-encoded calcium indicators (GECIs) (i.e., GCaMP) to measure neuron response to chemical stimuli in real time. 
+Neuron response is measured and ultimately calculated as **percent change in fluorescence intensity (df/f) over time**.
+
+### Purpose:
+
+I want to visualize df/f over time in the form of line plots, where any peaks along the line would indicate a large change in fluorescence (and therefore, neural activity). I would hope to see peaks that correspond to the times I administered the chemical stimulus to the worm.
+
+I want to visualize:
+
+* df/f for each individual worm
+
+* Average df/f of each treatment group
 
 
 ## Libraries
-These are the necessary libraries.
+These are the necessary libraries we will need to load.
 ```{r}
 library(here)
 library(tidyverse)
@@ -31,21 +49,30 @@ library(tidytext)
 Data is stored in the **data** folder.
 This data was collected and stored in a _.log_ file, in the form of 9 comma-delimited columns.
 The data is organized in folders in this order:
+
 _worm strain & stimulant_ --> _tracking Journal_ --> _worm ID_ --> .log file
 
-During analysis, we will be using a _for loop_ to iterate through each of these folders & grab the worm data
+During analysis, we will be using _for loops_ to iterate through each of these folders & grab the worm data.
 
 
 ## Functions
 For the purposes of this project, I have created a handful of functions that we will need to use for data analysis:
 
 **dff()**
-The entire project is based around the measurement of percent change in fluorescence in the neuron over time. This is called _deltaf/f_ (a.k.a _dff_).
+The entire project is based around the measurement of percent change in fluorescence in the neuron over time. This is called _delta f / f_ (a.k.a _dff_).
 
 Therefore, we require a function to calculate dff from our raw fluorescence data.
 
 ```{r}
-
+## Function for calculating df/f (% change in fluorescence)
+dff <- function(data) {
+  # sets baseline fluorescence
+  f0 <- mean(data[10:40]) # averages fluorescence data from frame 10-40 (1-4s)
+  # calculates df/f as a percentage
+  dff <- ((data - f0)/f0)*100
+  # returns dff
+  return(dff)
+}
 ```
 
 
@@ -57,7 +84,7 @@ However, R reads this as a _string_ due to the "e" and "+", but we need R to rea
 Therefore, we require a function to convert this character into a double. In doing so, we would convert it from scientific notation to its expanded form.
 
 ```{r}
-### Function to convert strings of scientific notation containing "e" (i.e., 1.234e+005) to numeric in expanded form (double)
+## Function to convert strings of scientific notation containing "e" (i.e., 1.234e+005) to numeric in expanded form (double)
 e_to_num <- function(string) {
   # finds first instance of "e" in the string, subsets everything before it & converts it to a numeric (double)
   value <- as.numeric(substring(string, 1, unlist(gregexpr("e", string))[1]))
@@ -72,5 +99,816 @@ e_to_num <- function(string) {
 ```
 
 
-## Analysis
+## Part 1
+Part 1 has multiple objectives that will be split into sub-parts:
 
+* **Iterate through the folders & get the data (.log files)**
+
+* **Clean data & convert to clean .csv**
+
+* **Calculate dff values for each individual worm**
+
+* **Plot dff values for each individual worm**
+
+
+### Part 1a - Iterate through folders & get the data
+As previously mentioned, the data is stored in nested folders as such:
+
+_worm strain & stimulant --> tracking Journal --> worm ID --> .log file_
+
+Therefore, we need a for-loop to iterate through each of these.
+
+The basic outline would look something like this:
+
+```{r, warning = FALSE, message = FALSE}
+## Iterates through each stimulant folder
+#for (i in 1:length(stim_folders)){
+  
+  ## Iterates through each JNL folder
+  #for (j in 1:length(jnl_folders)){
+    
+    ## Iterates through each worm folder
+    #for (k in 1:length(worm_folders)){
+      
+    ## } # ends iteration through worm folders
+    
+  ## } # ends iteration through JNL folders
+  
+## } # ends iteration through stim_folders
+
+```
+
+So we set up the necessary paths for each one:
+
+```{r, warning = FALSE, message = FALSE}
+# points to worm strain + stimulant folder on the computer
+stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
+# lists all folders in that path
+stim_folders <- dir(path = stim_path)
+
+# Iterates through each stimulant folder
+for (i in 1:length(stim_folders)){
+  
+  # points to JNL folder on the computer
+  jnl_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i])
+  # lists all JNL folders in that path
+  jnl_folders <- dir(path = jnl_path)
+  
+  # Iterates through each JNL folder within the current stimulant folder
+  for (j in 1:length(jnl_folders)){
+    # points to worm folder on the computer
+    worm_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j])
+    # lists all worm folders in that path
+    worm_folders <- dir(path = worm_path)
+    
+    # Iterates through each worm folder within the current JNL folder
+    for (k in 1:length(worm_folders)){
+      
+    } # ends iteration through worm folders
+    
+  } # ends iteration through JNL folders
+  
+} # ends iteration through stim_folders
+```
+
+Now that we have made it to the logfiles, we can read them in:
+
+```{r, warning = FALSE, message = FALSE}
+### within worm-folder iteration ###
+
+# points to the location of tracked worm data (logfiles) on the computer
+      logfile_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j], worm_folders[k])
+      # lists all logfiles in that path (contains ".log")
+      logfiles <- dir(path = logfile_path, pattern = ".log")
+      
+      # reads in current logfile into rawdata
+      rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
+```
+
+Here's one example of the raw data from one of the .log files:
+
+```{r}
+glimpse(rawdata)
+```
+
+Now that the logfiles are being read in with each iteration, while we're here, we can begin to clean the data.
+
+### Part 1b - Clean data & convert to clean .csv
+
+It makes sense to do this while still in the for-loops because it will do the cleaning to **_each_** logfile.
+
+Of the 9 initial columns, I only need to keep the first 3. I also decided to add 2 columns to give information about which treatment groups (Stimulant & JNL) that each worm belongs to.
+
+```{r, warning = FALSE, message = FALSE}
+### within worm-folder iteration ###
+
+# reads in current logfile into rawdata
+      rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
+      
+      wormdata <- rawdata %>% 
+        # adds column for stimulant and JNL type
+        mutate(stim_jnl = paste(stim_folders[i],jnl_folders[j], sep = "_"),
+               # renames default column names (Xn) to specified variable names
+               frame = rawdata$X1,
+               time_s = (rawdata$X2)/1000, # converts time in ms to s
+               fluor = rawdata$X3,
+               .keep = "used") # only keeps mutated columns
+```
+
+Here is an example of what one of our clean data looks like:
+
+```{r}
+glimpse(wormdata)
+```
+
+
+### Part 1c - Calculate dff values for each individual worm
+
+Next, here is where I did my **calculations for dff** which required me to use the **dff()** function I showed earlier. 
+
+However, I also ran into an issue of needing to convert strings to numerics before I could successfully calculate dff, which is why I also created the **e_to_num()** function.
+
+```{r, warning = FALSE, message = FALSE}
+### within worm-folder iteration ###
+
+# For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)
+      wormdata <- wormdata %>% 
+        mutate(fluor = str_replace_all(fluor, "\\,",""),
+               fluor = e_to_num(fluor)) %>% 
+        # adds column for calculating dff
+        mutate(dff = dff(fluor))
+```
+
+Here is where I then converted my cleaned & dff-calcuated data into a _.csv_ file and saved it to my **data folder** to use later.
+
+Since this is still being iterated, it created one .csv file for _each_ logfile.
+
+```{r, warning = FALSE, message = FALSE}
+### within worm-folder iteration ###
+
+# converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID
+      write_csv(wormdata, here("IndependentProject_Mackie", "data", "clean_csv", paste(stim_folders[i],jnl_folders[j],logfiles, sep = "_")))
+```
+
+### Part 1d - Plot dff values for each individual worm
+
+Still within the iteration, I created plots of dff over time for _each individual worm_. 
+
+```{r, warning = FALSE, message = FALSE}
+### within worm-folder iteration ###
+
+# generates plot of % df/f over time in s
+      ggplot()+
+        
+        # axis scales by 10
+        scale_x_continuous(breaks = seq(from = 0, to = 180, by=10))+
+        
+        # adds red vertical line to notable timepoints for stimulant ON & OFF
+        geom_vline(xintercept = 10, color = "red")+
+        geom_vline(xintercept = 130, color = "red")+
+        
+        # specifies line plot, & size/color of line
+        geom_line(data = wormdata,
+                  mapping = aes(x = time_s, y = dff),
+                  color = "black", linewidth = 1)+
+        
+        # specifies plot labels
+        labs(x = "Time (s)",
+             y = "% dF/F",
+             title = "Change in fluorescence over time",
+             subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+             caption = worm_folders[k])+
+        
+        # specifies color and size of plot elements
+        theme(plot.title = element_text(size = 12, face = "bold"),
+              plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+              plot.caption = element_text(size = 8, color = "gray30"),
+              axis.title = element_text(size = 10))
+      
+      # saves plot to output folder, and names it by worm folder name
+      ggsave(here("IndependentProject_Mackie","output","individual_dff",paste("plot",stim_folders[i],jnl_folders[j],worm_folders[k],".png", sep = "-")),
+             width = 6, height = 6)
+```
+
+
+
+
+Lastly, I made sure to close each loop.
+
+
+Here is _Part1_ all together:
+
+```{r}
+# pre-allocates a dataframe to hold information for convenience later
+# 4 columns, but we will append more rows later
+size_mat <- data.frame(matrix(ncol = 5))
+
+# worm_num is the current worm being analyzed overall
+worm_num = 0
+
+# points to worm strain + stimulant folder on the computer
+stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
+# lists all folders in that path
+stim_folders <- dir(path = stim_path)
+
+# Iterates through each stimulant folder
+for (i in 1:length(stim_folders)){
+  
+  # points to JNL folder on the computer
+  jnl_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i])
+  # lists all JNL folders in that path
+  jnl_folders <- dir(path = jnl_path)
+  
+  # Iterates through each JNL folder within the current stimulant folder
+  for (j in 1:length(jnl_folders)){
+    # points to worm folder on the computer
+    worm_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j])
+    # lists all worm folders in that path
+    worm_folders <- dir(path = worm_path)
+    
+    # Iterates through each worm folder within the current JNL folder
+    for (k in 1:length(worm_folders)){
+      
+      # adds +1 to worm count
+      worm_num = worm_num + 1
+      
+      # points to the location of tracked worm data (logfiles) on the computer
+      logfile_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j], worm_folders[k])
+      # lists all logfiles in that path (contains ".log")
+      logfiles <- dir(path = logfile_path, pattern = ".log")
+      
+      # reads in current logfile into rawdata
+      rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
+      
+      wormdata <- rawdata %>% 
+        # adds column for stimulant and JNL type
+        mutate(stim_jnl = paste(stim_folders[i],jnl_folders[j], sep = "_"),
+               # renames default column names (Xn) to specified variable names
+               frame = rawdata$X1,
+               time_s = (rawdata$X2)/1000, # converts time in ms to s
+               fluor = rawdata$X3,
+               .keep = "used") # only keeps mutated columns
+      
+      # For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)
+      wormdata <- wormdata %>% 
+        mutate(fluor = str_replace_all(fluor, "\\,",""),
+               fluor = e_to_num(fluor)) %>% 
+        # adds column for calculating dff
+        mutate(dff = dff(fluor))
+      
+      # converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID
+      write_csv(wormdata, here("IndependentProject_Mackie", "data", "clean_csv", paste(stim_folders[i],jnl_folders[j],logfiles, sep = "_")))
+      
+      # generates plot of % df/f over time in s
+      ggplot()+
+        
+        # axis scales by 10
+        scale_x_continuous(breaks = seq(from = 0, to = 180, by=10))+
+        
+        # adds red vertical line to notable timepoints for stimulant ON & OFF
+        geom_vline(xintercept = 10, color = "red")+
+        geom_vline(xintercept = 130, color = "red")+
+        
+        # specifies line plot, & size/color of line
+        geom_line(data = wormdata,
+                  mapping = aes(x = time_s, y = dff),
+                  color = "black", linewidth = 1)+
+        
+        # specifies plot labels
+        labs(x = "Time (s)",
+             y = "% dF/F",
+             title = "Change in fluorescence over time",
+             subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+             caption = worm_folders[k])+
+        
+        
+        # specifies color and size of plot elements
+        theme(plot.title = element_text(size = 12, face = "bold"),
+              plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+              plot.caption = element_text(size = 8, color = "gray30"),
+              axis.title = element_text(size = 10))
+      
+      # saves plot to output folder, and names it by worm folder name
+      ggsave(here("IndependentProject_Mackie","output","individual_dff",paste("plot",stim_folders[i],jnl_folders[j],worm_folders[k],".png", sep = "-")),
+             width = 6, height = 6)
+      
+      # number of frames is the number of rows within wormdata
+      frames <- nrow(wormdata)
+      
+      # dataframe to store time information (to use for plotting later)
+      time_data <- wormdata$time_s
+      
+    } # ends iteration through worm folders
+    
+    # adds column names to size_mat
+    colnames(size_mat) <- c("frames","stim_jnl","worms_jnl","worm_num","jnl_start")
+    # appends rows to size_mat
+    size_mat[nrow(size_mat) + 1,] = c(frames,
+                                      paste(stim_folders[i],jnl_folders[j],sep = "_"), # stimulant + jnl
+                                      k, # final worm of each journal (= worms per journal)
+                                      worm_num, # worm count (= total worms up to that journal)
+                                      worm_num - k + 1) # starting worm for each jnl
+    
+  } # ends iteration through JNL folders
+  
+} # ends iteration through stim_folders
+
+# drop first row (Nas) from size_mat
+size_mat <- drop_na(size_mat)
+
+```
+
+Although, during this iteration, I created some helpful variables to help me later on during analysis.
+
+For example:
+
+```{r}
+glimpse(size_mat)
+```
+
+_____________________________________________________________________________
+
+The next 3 parts will all be related to producing the **Average dff** plots.
+
+For this, we will use the clean .csv files that we created!
+
+This is the approach:
+
+1. Gather all individual dff values from the csv files into a single dataframe called **dff_all**
+
+2. **Average** dff values by Stimulant + JNL and store them in *avg_all*
+
+3. **Plot Average dff!**
+
+## Part 2 - Gather dff values into dff_all
+We previously calculated dff for each worm and stored it into our clean csv files.
+
+Therefore, to grab those dff values, we must iterate through each csv file.
+
+```{r}
+
+# points to location of csv file on the computer
+csv_path <- here("IndependentProject_Mackie", "data", "clean_csv")
+# lists all .csv files in that path
+csvfiles <- dir(path = csv_path)
+
+# pre-allocates a dataframe to store all dff values
+dff_all <- data.frame(matrix(nrow = frames, ncol = length(csvfiles)))
+# adds column names as dff{n}
+colnames(dff_all) <- c(paste("dff_worm",(1:length(csvfiles)),sep = ""))
+
+# Iterates through each csv file (i.e., for each worm)
+for (l in 1:length(csvfiles)){
+  
+  # reads in csv files
+  csv_data <- read_csv(here("IndependentProject_Mackie", "data", "clean_csv", csvfiles[l]))
+  
+  # stores dff column into dff_all
+  dff_all[l] <- csv_data$dff
+}
+
+```
+
+Here are all the dff values for each worm:
+
+```{r}
+glimpse(dff_all)
+```
+
+
+## Part 3 - Average dff values by Stimulant + Journal
+
+Now that we have dff values all stored in dff_all, we can now take the averages of those based on the Stimulant + JNL combination.
+
+To do this, we can use _size_mat_ to iterate through the Stimulant + JNLs (treatments), which only requires one for-loop.
+
+_(As opposed to previously, where we iterated through 3 sets of folders and therefore needed 3 nested for-loops. Creating the .csv files was useful for reducing the amount of separate iterations we must do to access our data.)_
+
+```{r}
+# pre-allocates a dataframe to store all average dff values (averaged by journal)
+# 2 columns because there are 2 unique stim + jnl combinations
+avg_all <- data.frame(matrix(nrow = frames, ncol = nrow(size_mat)))
+# adds column names as stim_jnl{n}
+colnames(avg_all) <- c(paste("stim_jnl",(1:nrow(size_mat)),sep = ""))
+
+# iterates over each row in size_mat (i.e., m = the current stim_jnl)
+for (m in 1:nrow(size_mat)){
+  
+  # if first stim_jnl, starts with 1st worm
+  ifelse(m == 1, start_worm <-  1,
+         # else, starts with 1st worm of the current journal
+         start_worm <- size_mat$jnl_start[m])
+  
+  # ending worm = final worm of current stim_jnl
+  end_worm <- size_mat$worm_num[m]
+  
+  # calculates averages across rows, only for worms that correspond to the current stim_jnl (removes NAs)
+  # stores this in column of avg_all corresponding to current stim_jnl
+  avg_all[m] <- rowMeans(dff_all[,start_worm:end_worm])
+  
+} # ends iteration for each jnl (row in size_mat)
+    
+```
+
+Here are the Average dff values (for each treatment group = Stimulant + JNL).
+```{r}
+glimpse(avg_all)
+```
+
+
+
+## Part 4 - Plot Average dff
+Here is where the Average dff (per treatment group) was plotted.
+To do this, we have once again used the handy variable _size_mat_ to help us iterate through the Stimulant + JNLs, without having to iterate through 3 different folders!
+
+Note: This likely could have been done in the previous iteration, but I chose to do it separately for ease of understanding. 
+
+```{r}
+# pre-allocates dataframe to hold only the x & y values for plotting
+plot_data <- data.frame(matrix(nrow = frames, ncol = 2))
+# column names
+colnames(plot_data) <- c("x","y")
+
+# iterates for each journal (# of rows in size_mat)
+for (n in 1:nrow(size_mat)){
+  
+  # updates plot_data with appropriate data
+  plot_data <- plot_data %>% 
+    mutate(x = time_data, # assigns time data to x column
+           y = avg_all[,n]) # assigns current column of avg_all to y column
+  
+  # generates plot of average % df/f over time in s
+  ggplot(plot_data)+
+    
+    # axis scales by 10
+    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    
+    # adds red vertical line to notable timepoints for stimulant ON & OFF
+    geom_vline(xintercept = 10, color = "red")+
+    geom_vline(xintercept = 130, color = "red")+
+    
+    # specifies line plot, & size/color of line
+    geom_line(mapping = aes(x = x,
+                            y = y),
+              color = "blue", linewidth = 2)+
+    
+    # specifies plot labels
+    labs(x = "Time (s)",
+         y = "% dF/F",
+         title = "Average Change in fluorescence over time",
+         subtitle = size_mat$stim_jnl[n])+ # current stimulant + jnl
+    
+    
+    # specifies color and size of plot elements
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+          plot.caption = element_text(size = 8, color = "gray30"),
+          axis.title = element_text(size = 10))
+  
+  # saves plot to output folder, and names it by worm folder name
+  ggsave(here("IndependentProject_Mackie","output","average_dff",paste("plot",size_mat$stim_jnl[n],".png", sep = "-")),
+         width = 6, height = 6)
+  
+} # ends iteration
+```
+
+Here is one of the two Average dff plots I have so far! 
+(One for each treatment group)
+
+```{r, echo = FALSE}
+# pre-allocates dataframe to hold only the x & y values for plotting
+plot_data <- data.frame(matrix(nrow = frames, ncol = 2))
+# column names
+colnames(plot_data) <- c("x","y")
+
+# iterates for each journal (# of rows in size_mat)
+for (n in 1:nrow(size_mat)){
+  
+  # updates plot_data with appropriate data
+  plot_data <- plot_data %>% 
+    mutate(x = time_data, # assigns time data to x column
+           y = avg_all[,n]) # assigns current column of avg_all to y column
+  
+  # generates plot of average % df/f over time in s
+  avg_dff_plot <- ggplot(plot_data)+
+    
+    # axis scales by 10
+    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    
+    # adds red vertical line to notable timepoints for stimulant ON & OFF
+    geom_vline(xintercept = 10, color = "red")+
+    geom_vline(xintercept = 130, color = "red")+
+    
+    # specifies line plot, & size/color of line
+    geom_line(mapping = aes(x = x,
+                            y = y),
+              color = "blue", linewidth = 2)+
+    
+    # specifies plot labels
+    labs(x = "Time (s)",
+         y = "% dF/F",
+         title = "Average Change in fluorescence over time",
+         subtitle = size_mat$stim_jnl[n])+ # current stimulant + jnl
+    
+    
+    # specifies color and size of plot elements
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+          plot.caption = element_text(size = 8, color = "gray30"),
+          axis.title = element_text(size = 10))
+  
+  # saves plot to output folder, and names it by worm folder name
+  ggsave(here("IndependentProject_Mackie","output","average_dff",paste("plot",size_mat$stim_jnl[n],".png", sep = "-")),
+         width = 6, height = 6)
+  
+} # ends iteration
+
+avg_dff_plot
+```
+
+
+## All together now!
+Here is the _entire_ project, where all of these parts work together to produce my desired data visualizations!
+
+```{r}
+#### Load Libraries ####-----------------------------------------------
+library(tidyverse)
+library(here)
+library(tidytext)
+
+#### Functions ####----------------------------------------------------
+
+## Function to convert strings of scientific notation containing "e" (i.e., 1.234e+005) to numeric in expanded form (double)
+e_to_num <- function(string) {
+  # finds first instance of "e" in the string, subsets everything before it & converts it to a numeric (double)
+  value <- as.numeric(substring(string, 1, unlist(gregexpr("e", string))[1]))
+  # finds first instance of "+" in the string, subsets everything after it & converts it to a numeric (double)
+  # note: this number is the exponent, so we will set 10^exponent
+  exponent <- 10^(as.numeric(str_sub(string, unlist(gregexpr("\\+", string))[1]+1, str_length(string))))
+  # multiplies value by the 10^n exponent
+  expanded_num <- value*exponent
+  # returns numeric (double) of original string in expanded form
+  return(expanded_num)
+}
+
+## Function for calculating df/f (% change in fluorescence)
+dff <- function(data) {
+  # sets baseline fluorescence
+  f0 <- mean(data[10:40]) # averages fluorescence data from frame 10-40 (1-4s)
+  # calculates df/f as a percentage
+  dff <- ((data - f0)/f0)*100
+  # returns dff
+  return(dff)
+}
+
+#### Analysis ####-----------------------------------------------------
+#### Part 1 - Get data, convert to clean csv, calculate dff, plot individual dff ####----------
+
+# pre-allocates a dataframe to hold information for convenience later
+# 4 columns, but we will append more rows later
+size_mat <- data.frame(matrix(ncol = 5))
+
+# worm_num is the current worm being analyzed overall
+worm_num = 0
+
+# points to worm strain + stimulant folder on the computer
+stim_path <- here("IndependentProject_Mackie", "data", "GCaMP_data")
+# lists all folders in that path
+stim_folders <- dir(path = stim_path)
+
+# Iterates through each stimulant folder
+for (i in 1:length(stim_folders)){
+  
+  # points to JNL folder on the computer
+  jnl_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i])
+  # lists all JNL folders in that path
+  jnl_folders <- dir(path = jnl_path)
+  
+  # Iterates through each JNL folder within the current stimulant folder
+  for (j in 1:length(jnl_folders)){
+    # points to worm folder on the computer
+    worm_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j])
+    # lists all worm folders in that path
+    worm_folders <- dir(path = worm_path)
+    
+    # Iterates through each worm folder within the current JNL folder
+    for (k in 1:length(worm_folders)){
+      
+      # adds +1 to worm count
+      worm_num = worm_num + 1
+      
+      # points to the location of tracked worm data (logfiles) on the computer
+      logfile_path <- here("IndependentProject_Mackie", "data", "GCaMP_data", stim_folders[i], jnl_folders[j], worm_folders[k])
+      # lists all logfiles in that path (contains ".log")
+      logfiles <- dir(path = logfile_path, pattern = ".log")
+      
+      # reads in current logfile into rawdata
+      rawdata <- read_log(here("IndependentProject_Mackie","data", "GCaMP_data", stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))
+      
+      wormdata <- rawdata %>% 
+        # adds column for stimulant and JNL type
+        mutate(stim_jnl = paste(stim_folders[i],jnl_folders[j], sep = "_"),
+               # renames default column names (Xn) to specified variable names
+               frame = rawdata$X1,
+               time_s = (rawdata$X2)/1000, # converts time in ms to s
+               fluor = rawdata$X3,
+               .keep = "used") # only keeps mutated columns
+      
+      # For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)
+      wormdata <- wormdata %>% 
+        mutate(fluor = str_replace_all(fluor, "\\,",""),
+               fluor = e_to_num(fluor)) %>% 
+        # adds column for calculating dff
+        mutate(dff = dff(fluor))
+      
+      # converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID
+      write_csv(wormdata, here("IndependentProject_Mackie", "data", "clean_csv", paste(stim_folders[i],jnl_folders[j],logfiles, sep = "_")))
+      
+      # generates plot of % df/f over time in s
+      ggplot()+
+        
+        # axis scales by 10
+        scale_x_continuous(breaks = seq(from = 0, to = 180, by=10))+
+        
+        # adds red vertical line to notable timepoints for stimulant ON & OFF
+        geom_vline(xintercept = 10, color = "red")+
+        geom_vline(xintercept = 130, color = "red")+
+        
+        # specifies line plot, & size/color of line
+        geom_line(data = wormdata,
+                  mapping = aes(x = time_s, y = dff),
+                  color = "black", linewidth = 1)+
+        
+        # specifies plot labels
+        labs(x = "Time (s)",
+             y = "% dF/F",
+             title = "Change in fluorescence over time",
+             subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+             caption = worm_folders[k])+
+        
+        
+        # specifies color and size of plot elements
+        theme(plot.title = element_text(size = 12, face = "bold"),
+              plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+              plot.caption = element_text(size = 8, color = "gray30"),
+              axis.title = element_text(size = 10))
+      
+      # saves plot to output folder, and names it by worm folder name
+      ggsave(here("IndependentProject_Mackie","output","individual_dff",paste("plot",stim_folders[i],jnl_folders[j],worm_folders[k],".png", sep = "-")),
+             width = 6, height = 6)
+      
+      # number of frames is the number of rows within wormdata
+      frames <- nrow(wormdata)
+      
+      # dataframe to store time information (to use for plotting later)
+      time_data <- wormdata$time_s
+      
+    } # ends iteration through worm folders
+    
+    # adds column names to size_mat
+    colnames(size_mat) <- c("frames","stim_jnl","worms_jnl","worm_num","jnl_start")
+    # appends rows to size_mat
+    size_mat[nrow(size_mat) + 1,] = c(frames,
+                                      paste(stim_folders[i],jnl_folders[j],sep = "_"), # stimulant + jnl
+                                      k, # final worm of each journal (= worms per journal)
+                                      worm_num, # worm count (= total worms up to that journal)
+                                      worm_num - k + 1) # starting worm for each jnl
+    
+  } # ends iteration through JNL folders
+  
+} # ends iteration through stim_folders
+
+# drop first row (Nas) from size_mat
+size_mat <- drop_na(size_mat)
+
+"Part 1 complete!
+Clean csv files generated (see data)
+Individual dff plots generated (see outputs)"
+
+#### Part 2 - Gather dff values into dff_all ####-------------
+
+# points to location of csv file on the computer
+csv_path <- here("IndependentProject_Mackie", "data", "clean_csv")
+# lists all .csv files in that path
+csvfiles <- dir(path = csv_path)
+
+# pre-allocates a dataframe to store all dff values
+dff_all <- data.frame(matrix(nrow = frames, ncol = length(csvfiles)))
+# adds column names as dff{n}
+colnames(dff_all) <- c(paste("dff_worm",(1:length(csvfiles)),sep = ""))
+
+# Iterates through each csv file (i.e., for each worm)
+for (l in 1:length(csvfiles)){
+  
+  # reads in csv files
+  csv_data <- read_csv(here("IndependentProject_Mackie", "data", "clean_csv", csvfiles[l]))
+  
+  # stores dff column into dff_all
+  dff_all[l] <- csv_data$dff
+}
+
+"Part 2 complete!
+Gathered all dff values into dff_all."
+
+
+#### Part 3 - Average dff values by Stimulant + Journal & Plot them! ####-------------
+
+# pre-allocates a dataframe to store all average dff values (averaged by journal)
+# 2 columns because there are 2 unique stim + jnl combinations
+avg_all <- data.frame(matrix(nrow = frames, ncol = nrow(size_mat)))
+# adds column names as stim_jnl{n}
+colnames(avg_all) <- c(paste("stim_jnl",(1:nrow(size_mat)),sep = ""))
+
+# iterates over each row in size_mat (i.e., m = the current stim_jnl)
+for (m in 1:nrow(size_mat)){
+  
+  # if first stim_jnl, starts with 1st worm
+  ifelse(m == 1, start_worm <-  1,
+         # else, starts with 1st worm of the current journal
+         start_worm <- size_mat$jnl_start[m])
+  
+  # ending worm = final worm of current stim_jnl
+  end_worm <- size_mat$worm_num[m]
+  
+  # calculates averages across rows, only for worms that correspond to the current stim_jnl (removes NAs)
+  # stores this in column of avg_all corresponding to current stim_jnl
+  avg_all[m] <- rowMeans(dff_all[,start_worm:end_worm])
+  
+} # ends iteration for each jnl (row in size_mat)
+
+"Part 3 complete!
+Average dff calculated and stored in avg_all"
+    
+
+#### Part 4 - Plotting Average dff ####-------------
+
+# pre-allocates dataframe to hold only the x & y values for plotting
+plot_data <- data.frame(matrix(nrow = frames, ncol = 2))
+# column names
+colnames(plot_data) <- c("x","y")
+
+# iterates for each journal (# of rows in size_mat)
+for (n in 1:nrow(size_mat)){
+  
+  # updates plot_data with appropriate data
+  plot_data <- plot_data %>% 
+    mutate(x = time_data, # assigns time data to x column
+           y = avg_all[,n]) # assigns current column of avg_all to y column
+  
+  # generates plot of average % df/f over time in s
+  ggplot(plot_data)+
+    
+    # axis scales by 10
+    scale_x_discrete(breaks = seq(from = 0, to = 180, by = 10))+
+    
+    # adds red vertical line to notable timepoints for stimulant ON & OFF
+    geom_vline(xintercept = 10, color = "red")+
+    geom_vline(xintercept = 130, color = "red")+
+    
+    # specifies line plot, & size/color of line
+    geom_line(mapping = aes(x = x,
+                            y = y),
+              color = "blue", linewidth = 2)+
+    
+    # specifies plot labels
+    labs(x = "Time (s)",
+         y = "% dF/F",
+         title = "Average Change in fluorescence over time",
+         subtitle = size_mat$stim_jnl[n])+ # current stimulant + jnl
+    
+    
+    # specifies color and size of plot elements
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+          plot.caption = element_text(size = 8, color = "gray30"),
+          axis.title = element_text(size = 10))
+  
+  # saves plot to output folder, and names it by worm folder name
+  ggsave(here("IndependentProject_Mackie","output","average_dff",paste("plot",size_mat$stim_jnl[n],".png", sep = "-")),
+         width = 6, height = 6)
+  
+} # ends iteration
+
+"Part 4 complete!
+Average dff plots generated! (see outputs)"
+
+"Done!"
+```
+
+
+## Future notes
+Although this does what I need and works pretty well, a project can always be improved upon!
+
+Here are some things I'd like to work on & add to this project in the future:
+
+* Plot individual worm dff & average dff together. This makes it easier to see how close individual worms are to each other, and how the average compares to each worm in the sample.
+
+* Making the code "future-proof." I want to be able to add new data to it without worrying about my code breaking. The data I am working with have different journal programs, and therefore different numbers of frames and times. I would need to make adjustments so that my data can be plotted successfully for all of my different experimental conditions.
+
+* Additional tidying & efficiency in general.
+
+* Other calculations I could make & other ways to visualize my data.
+
+
+
+###### Thanks for reading!

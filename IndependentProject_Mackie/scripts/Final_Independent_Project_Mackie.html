@@ -12,7 +12,7 @@
 
 <meta name="author" content="Marisa Mackie" />
 
-<meta name="date" content="2023-04-27" />
+<meta name="date" content="2023-05-09" />
 
 <title>Final Independent Project</title>
 
@@ -31,6 +31,97 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+
+a.sourceLine {
+pointer-events: auto;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -51,16 +142,886 @@ document.addEventListener('DOMContentLoaded', function(e) {
 <div class="inner">
 <h1 class="title toc-ignore">Final Independent Project</h1>
 <h3 class="author">Marisa Mackie</h3>
-<h3 class="date">2023-04-27</h3>
+<h3 class="date">2023-05-09</h3>
 </div>
 </header>
 
 
+<div id="TOC" class="toc">
+<div class="inner">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<ul>
+<li><a href="#purpose" id="toc-purpose">Purpose:</a></li>
+</ul></li>
+<li><a href="#libraries" id="toc-libraries">Libraries</a></li>
+<li><a href="#data" id="toc-data">Data</a></li>
+<li><a href="#functions" id="toc-functions">Functions</a></li>
+<li><a href="#part-1" id="toc-part-1">Part 1</a>
+<ul>
+<li><a href="#part-1a---iterate-through-folders-get-the-data" id="toc-part-1a---iterate-through-folders-get-the-data">Part 1a -
+Iterate through folders &amp; get the data</a></li>
+<li><a href="#part-1b---clean-data-convert-to-clean-.csv" id="toc-part-1b---clean-data-convert-to-clean-.csv">Part 1b - Clean data
+&amp; convert to clean .csv</a></li>
+<li><a href="#part-1c---calculate-dff-values-for-each-individual-worm" id="toc-part-1c---calculate-dff-values-for-each-individual-worm">Part 1c
+- Calculate dff values for each individual worm</a></li>
+<li><a href="#part-1d---plot-dff-values-for-each-individual-worm" id="toc-part-1d---plot-dff-values-for-each-individual-worm">Part 1d -
+Plot dff values for each individual worm</a></li>
+</ul></li>
+<li><a href="#part-2---gather-dff-values-into-dff_all" id="toc-part-2---gather-dff-values-into-dff_all">Part 2 - Gather dff
+values into dff_all</a></li>
+<li><a href="#part-3---average-dff-values-by-stimulant-journal" id="toc-part-3---average-dff-values-by-stimulant-journal">Part 3 -
+Average dff values by Stimulant + Journal</a></li>
+<li><a href="#part-4---plot-average-dff" id="toc-part-4---plot-average-dff">Part 4 - Plot Average dff</a></li>
+<li><a href="#all-together-now" id="toc-all-together-now">All together
+now!</a></li>
+<li><a href="#future-notes" id="toc-future-notes">Future notes</a></li>
+</ul>
+</div>
+</div>
 
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This project is related to my Master’s Thesis project:</p>
+<p><strong>Mapping chemical stimuli to their cognate neurons in
+<em>Pristionchus pacificus</em> via genetically encoded calcium
+indicators</strong></p>
+<p>I work with nematode (microscopic roundworm) species <em>Pristionchus
+pacificus</em> and am interested in studying their amphid neurons, which
+are responsible for the sensing of chemicals in their environment–that
+is, odorants and tastants. There are 12 pairs of these amphid neurons,
+however, it is unknown which neurons specifically correspond to
+particular volatile odors or water-soluble tastants. My goal is to map
+various chemical stimuli to their cognate neurons.</p>
+<p>To do this, I have used genetically-encoded calcium indicators
+(GECIs) (i.e., GCaMP) to measure neuron response to chemical stimuli in
+real time. Neuron response is measured and ultimately calculated as
+<strong>percent change in fluorescence intensity (df/f) over
+time</strong>.</p>
+<div id="purpose" class="section level3">
+<h3>Purpose:</h3>
+<p>I want to visualize df/f over time in the form of line plots, where
+any peaks along the line would indicate a large change in fluorescence
+(and therefore, neural activity). I would hope to see peaks that
+correspond to the times I administered the chemical stimulus to the
+worm.</p>
+<p>I want to visualize:</p>
+<ul>
+<li><p>df/f for each individual worm</p></li>
+<li><p>Average df/f of each treatment group</p></li>
+</ul>
+</div>
+</div>
+<div id="libraries" class="section level2">
+<h2>Libraries</h2>
+<p>These are the necessary libraries we will need to load.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Data is stored in the <strong>data</strong> folder. This data was
+collected and stored in a <em>.log</em> file, in the form of 9
+comma-delimited columns. The data is organized in folders in this
+order:</p>
+<p><em>worm strain &amp; stimulant</em> –&gt; <em>tracking Journal</em>
+–&gt; <em>worm ID</em> –&gt; .log file</p>
+<p>During analysis, we will be using <em>for loops</em> to iterate
+through each of these folders &amp; grab the worm data.</p>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p>For the purposes of this project, I have created a handful of
+functions that we will need to use for data analysis:</p>
+<p><strong>dff()</strong> The entire project is based around the
+measurement of percent change in fluorescence in the neuron over time.
+This is called <em>delta f / f</em> (a.k.a <em>dff</em>).</p>
+<p>Therefore, we require a function to calculate dff from our raw
+fluorescence data.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Function for calculating df/f (% change in fluorescence)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dff <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># sets baseline fluorescence</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  f0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data[<span class="dv">10</span><span class="sc">:</span><span class="dv">40</span>]) <span class="co"># averages fluorescence data from frame 10-40 (1-4s)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculates df/f as a percentage</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  dff <span class="ot">&lt;-</span> ((data <span class="sc">-</span> f0)<span class="sc">/</span>f0)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns dff</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dff)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>e_to_num()</strong> This function is due to an issue I ran
+into while analyzing fluorescence data. The fluorescence data is stored
+in scientific notation, e.g. <em>1.2345e+008</em>. However, R reads this
+as a <em>string</em> due to the “e” and “+”, but we need R to read it as
+a <em>numeric</em> so we can use it for mathematical calculations (i.e.,
+calculating dff).</p>
+<p>Therefore, we require a function to convert this character into a
+double. In doing so, we would convert it from scientific notation to its
+expanded form.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Function to convert strings of scientific notation containing &quot;e&quot; (i.e., 1.234e+005) to numeric in expanded form (double)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>e_to_num <span class="ot">&lt;-</span> <span class="cf">function</span>(string) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finds first instance of &quot;e&quot; in the string, subsets everything before it &amp; converts it to a numeric (double)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substring</span>(string, <span class="dv">1</span>, <span class="fu">unlist</span>(<span class="fu">gregexpr</span>(<span class="st">&quot;e&quot;</span>, string))[<span class="dv">1</span>]))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finds first instance of &quot;+&quot; in the string, subsets everything after it &amp; converts it to a numeric (double)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># note: this number is the exponent, so we will set 10^exponent</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  exponent <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="fu">as.numeric</span>(<span class="fu">str_sub</span>(string, <span class="fu">unlist</span>(<span class="fu">gregexpr</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">+&quot;</span>, string))[<span class="dv">1</span>]<span class="sc">+</span><span class="dv">1</span>, <span class="fu">str_length</span>(string))))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># multiplies value by the 10^n exponent</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  expanded_num <span class="ot">&lt;-</span> value<span class="sc">*</span>exponent</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns numeric (double) of original string in expanded form</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(expanded_num)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="part-1" class="section level2">
+<h2>Part 1</h2>
+<p>Part 1 has multiple objectives that will be split into sub-parts:</p>
+<ul>
+<li><p><strong>Iterate through the folders &amp; get the data (.log
+files)</strong></p></li>
+<li><p><strong>Clean data &amp; convert to clean .csv</strong></p></li>
+<li><p><strong>Calculate dff values for each individual
+worm</strong></p></li>
+<li><p><strong>Plot dff values for each individual
+worm</strong></p></li>
+</ul>
+<div id="part-1a---iterate-through-folders-get-the-data" class="section level3">
+<h3>Part 1a - Iterate through folders &amp; get the data</h3>
+<p>As previously mentioned, the data is stored in nested folders as
+such:</p>
+<p><em>worm strain &amp; stimulant –&gt; tracking Journal –&gt; worm ID
+–&gt; .log file</em></p>
+<p>Therefore, we need a for-loop to iterate through each of these.</p>
+<p>The basic outline would look something like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Iterates through each stimulant folder</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#for (i in 1:length(stim_folders)){</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Iterates through each JNL folder</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#for (j in 1:length(jnl_folders)){</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Iterates through each worm folder</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#for (k in 1:length(worm_folders)){</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="do">## } # ends iteration through worm folders</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## } # ends iteration through JNL folders</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">## } # ends iteration through stim_folders</span></span></code></pre></div>
+<p>So we set up the necessary paths for each one:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># points to worm strain + stimulant folder on the computer</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>stim_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># lists all folders in that path</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>stim_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> stim_path)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterates through each stimulant folder</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stim_folders)){</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># points to JNL folder on the computer</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  jnl_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i])</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lists all JNL folders in that path</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  jnl_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> jnl_path)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterates through each JNL folder within the current stimulant folder</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(jnl_folders)){</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># points to worm folder on the computer</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    worm_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i], jnl_folders[j])</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># lists all worm folders in that path</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    worm_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> worm_path)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterates through each worm folder within the current JNL folder</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(worm_folders)){</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    } <span class="co"># ends iteration through worm folders</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># ends iteration through JNL folders</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration through stim_folders</span></span></code></pre></div>
+<p>Now that we have made it to the logfiles, we can read them in:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">### within worm-folder iteration </span><span class="al">###</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># points to the location of tracked worm data (logfiles) on the computer</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      logfile_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i], jnl_folders[j], worm_folders[k])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># lists all logfiles in that path (contains &quot;.log&quot;)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      logfiles <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> logfile_path, <span class="at">pattern =</span> <span class="st">&quot;.log&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># reads in current logfile into rawdata</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      rawdata <span class="ot">&lt;-</span> <span class="fu">read_log</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))</span></code></pre></div>
+<p>Here’s one example of the raw data from one of the .log files:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(rawdata)</span></code></pre></div>
+<pre><code>## Rows: 1,799
+## Columns: 9
+## $ X1 &lt;dbl&gt; 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,…
+## $ X2 &lt;dbl&gt; 100, 200, 301, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300…
+## $ X3 &lt;chr&gt; &quot;2.56996e+008,&quot;, &quot;2.52869e+008,&quot;, &quot;2.49897e+008,&quot;, &quot;2.47145e+008,&quot;,…
+## $ X4 &lt;chr&gt; &quot;5.02262e+007,&quot;, &quot;4.90528e+007,&quot;, &quot;4.83303e+007,&quot;, &quot;4.78552e+007,&quot;,…
+## $ X5 &lt;chr&gt; &quot;3.07222e+008,&quot;, &quot;3.01922e+008,&quot;, &quot;2.98227e+008,&quot;, &quot;2.95e+008,&quot;, &quot;2…
+## $ X6 &lt;dbl&gt; 11580, 11430, 11337, 11258, 11200, 11109, 11063, 11070, 10980, 1096…
+## $ X7 &lt;dbl&gt; 4337.33, 4291.58, 4263.06, 4250.77, 4230.43, 4203.62, 4190.86, 4067…
+## $ X8 &lt;dbl&gt; 1241, 1242, 1242, 1242, 1242, 1243, 1243, 1241, 1243, 1244, 1244, 1…
+## $ X9 &lt;dbl&gt; 1055, 1055, 1055, 1056, 1056, 1056, 1056, 1049, 1056, 1056, 1057, 1…</code></pre>
+<p>Now that the logfiles are being read in with each iteration, while
+we’re here, we can begin to clean the data.</p>
+</div>
+<div id="part-1b---clean-data-convert-to-clean-.csv" class="section level3">
+<h3>Part 1b - Clean data &amp; convert to clean .csv</h3>
+<p>It makes sense to do this while still in the for-loops because it
+will do the cleaning to <strong><em>each</em></strong> logfile.</p>
+<p>Of the 9 initial columns, I only need to keep the first 3. I also
+decided to add 2 columns to give information about which treatment
+groups (Stimulant &amp; JNL) that each worm belongs to.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">### within worm-folder iteration </span><span class="al">###</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reads in current logfile into rawdata</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      rawdata <span class="ot">&lt;-</span> <span class="fu">read_log</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      wormdata <span class="ot">&lt;-</span> rawdata <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds column for stimulant and JNL type</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">stim_jnl =</span> <span class="fu">paste</span>(stim_folders[i],jnl_folders[j], <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>               <span class="co"># renames default column names (Xn) to specified variable names</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">frame =</span> rawdata<span class="sc">$</span>X1,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">time_s =</span> (rawdata<span class="sc">$</span>X2)<span class="sc">/</span><span class="dv">1000</span>, <span class="co"># converts time in ms to s</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">fluor =</span> rawdata<span class="sc">$</span>X3,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">.keep =</span> <span class="st">&quot;used&quot;</span>) <span class="co"># only keeps mutated columns</span></span></code></pre></div>
+<p>Here is an example of what one of our clean data looks like:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wormdata)</span></code></pre></div>
+<pre><code>## Rows: 1,799
+## Columns: 4
+## $ stim_jnl &lt;chr&gt; &quot;odr7p_NH4Br_JNL_10off_120on_50off&quot;, &quot;odr7p_NH4Br_JNL_10off_1…
+## $ frame    &lt;dbl&gt; 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1…
+## $ time_s   &lt;dbl&gt; 0.100, 0.200, 0.301, 0.400, 0.500, 0.600, 0.700, 0.800, 0.900…
+## $ fluor    &lt;chr&gt; &quot;2.56996e+008,&quot;, &quot;2.52869e+008,&quot;, &quot;2.49897e+008,&quot;, &quot;2.47145e+…</code></pre>
+</div>
+<div id="part-1c---calculate-dff-values-for-each-individual-worm" class="section level3">
+<h3>Part 1c - Calculate dff values for each individual worm</h3>
+<p>Next, here is where I did my <strong>calculations for dff</strong>
+which required me to use the <strong>dff()</strong> function I showed
+earlier.</p>
+<p>However, I also ran into an issue of needing to convert strings to
+numerics before I could successfully calculate dff, which is why I also
+created the <strong>e_to_num()</strong> function.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">### within worm-folder iteration </span><span class="al">###</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      wormdata <span class="ot">&lt;-</span> wormdata <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">fluor =</span> <span class="fu">str_replace_all</span>(fluor, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">,&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">fluor =</span> <span class="fu">e_to_num</span>(fluor)) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds column for calculating dff</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">dff =</span> <span class="fu">dff</span>(fluor))</span></code></pre></div>
+<p>Here is where I then converted my cleaned &amp; dff-calcuated data
+into a <em>.csv</em> file and saved it to my <strong>data
+folder</strong> to use later.</p>
+<p>Since this is still being iterated, it created one .csv file for
+<em>each</em> logfile.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">### within worm-folder iteration </span><span class="al">###</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write_csv</span>(wormdata, <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>, <span class="fu">paste</span>(stim_folders[i],jnl_folders[j],logfiles, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)))</span></code></pre></div>
+</div>
+<div id="part-1d---plot-dff-values-for-each-individual-worm" class="section level3">
+<h3>Part 1d - Plot dff values for each individual worm</h3>
+<p>Still within the iteration, I created plots of dff over time for
+<em>each individual worm</em>.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">### within worm-folder iteration </span><span class="al">###</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generates plot of % df/f over time in s</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># axis scales by 10</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">180</span>, <span class="at">by=</span><span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds red vertical line to notable timepoints for stimulant ON &amp; OFF</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">130</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies line plot, &amp; size/color of line</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="at">data =</span> wormdata,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> time_s, <span class="at">y =</span> dff),</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies plot labels</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">&quot;% dF/F&quot;</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Change in fluorescence over time&quot;</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="fu">str_replace_all</span>(stim_folders[i], <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>), jnl_folders[j]),</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> worm_folders[k])<span class="sc">+</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies color and size of plot elements</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;saddlebrown&quot;</span>),</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;gray30&quot;</span>),</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>      <span class="co"># saves plot to output folder, and names it by worm folder name</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;output&quot;</span>,<span class="st">&quot;individual_dff&quot;</span>,<span class="fu">paste</span>(<span class="st">&quot;plot&quot;</span>,stim_folders[i],jnl_folders[j],worm_folders[k],<span class="st">&quot;.png&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)</span></code></pre></div>
+<p>Lastly, I made sure to close each loop.</p>
+<p>Here is <em>Part1</em> all together:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates a dataframe to hold information for convenience later</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 columns, but we will append more rows later</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>size_mat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">5</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># worm_num is the current worm being analyzed overall</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>worm_num <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># points to worm strain + stimulant folder on the computer</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>stim_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># lists all folders in that path</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>stim_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> stim_path)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterates through each stimulant folder</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stim_folders)){</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># points to JNL folder on the computer</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  jnl_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i])</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lists all JNL folders in that path</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  jnl_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> jnl_path)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterates through each JNL folder within the current stimulant folder</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(jnl_folders)){</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># points to worm folder on the computer</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    worm_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i], jnl_folders[j])</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># lists all worm folders in that path</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    worm_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> worm_path)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterates through each worm folder within the current JNL folder</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(worm_folders)){</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>      <span class="co"># adds +1 to worm count</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>      worm_num <span class="ot">=</span> worm_num <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>      <span class="co"># points to the location of tracked worm data (logfiles) on the computer</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>      logfile_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i], jnl_folders[j], worm_folders[k])</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>      <span class="co"># lists all logfiles in that path (contains &quot;.log&quot;)</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>      logfiles <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> logfile_path, <span class="at">pattern =</span> <span class="st">&quot;.log&quot;</span>)</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>      <span class="co"># reads in current logfile into rawdata</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>      rawdata <span class="ot">&lt;-</span> <span class="fu">read_log</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>      wormdata <span class="ot">&lt;-</span> rawdata <span class="sc">%&gt;%</span> </span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds column for stimulant and JNL type</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">stim_jnl =</span> <span class="fu">paste</span>(stim_folders[i],jnl_folders[j], <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>),</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>               <span class="co"># renames default column names (Xn) to specified variable names</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>               <span class="at">frame =</span> rawdata<span class="sc">$</span>X1,</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>               <span class="at">time_s =</span> (rawdata<span class="sc">$</span>X2)<span class="sc">/</span><span class="dv">1000</span>, <span class="co"># converts time in ms to s</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>               <span class="at">fluor =</span> rawdata<span class="sc">$</span>X3,</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>               <span class="at">.keep =</span> <span class="st">&quot;used&quot;</span>) <span class="co"># only keeps mutated columns</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>      <span class="co"># For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>      wormdata <span class="ot">&lt;-</span> wormdata <span class="sc">%&gt;%</span> </span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">fluor =</span> <span class="fu">str_replace_all</span>(fluor, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">,&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>               <span class="at">fluor =</span> <span class="fu">e_to_num</span>(fluor)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds column for calculating dff</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">dff =</span> <span class="fu">dff</span>(fluor))</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>      <span class="co"># converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write_csv</span>(wormdata, <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>, <span class="fu">paste</span>(stim_folders[i],jnl_folders[j],logfiles, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)))</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>      <span class="co"># generates plot of % df/f over time in s</span></span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># axis scales by 10</span></span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">180</span>, <span class="at">by=</span><span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds red vertical line to notable timepoints for stimulant ON &amp; OFF</span></span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">130</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies line plot, &amp; size/color of line</span></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="at">data =</span> wormdata,</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> time_s, <span class="at">y =</span> dff),</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies plot labels</span></span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>,</span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">&quot;% dF/F&quot;</span>,</span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Change in fluorescence over time&quot;</span>,</span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="fu">str_replace_all</span>(stim_folders[i], <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>), jnl_folders[j]),</span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> worm_folders[k])<span class="sc">+</span></span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies color and size of plot elements</span></span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;saddlebrown&quot;</span>),</span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;gray30&quot;</span>),</span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>              <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a>      <span class="co"># saves plot to output folder, and names it by worm folder name</span></span>
+<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;output&quot;</span>,<span class="st">&quot;individual_dff&quot;</span>,<span class="fu">paste</span>(<span class="st">&quot;plot&quot;</span>,stim_folders[i],jnl_folders[j],worm_folders[k],<span class="st">&quot;.png&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)),</span>
+<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>             <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)</span>
+<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a>      <span class="co"># number of frames is the number of rows within wormdata</span></span>
+<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a>      frames <span class="ot">&lt;-</span> <span class="fu">nrow</span>(wormdata)</span>
+<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a>      <span class="co"># dataframe to store time information (to use for plotting later)</span></span>
+<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a>      time_data <span class="ot">&lt;-</span> wormdata<span class="sc">$</span>time_s</span>
+<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a>    } <span class="co"># ends iteration through worm folders</span></span>
+<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adds column names to size_mat</span></span>
+<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(size_mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;frames&quot;</span>,<span class="st">&quot;stim_jnl&quot;</span>,<span class="st">&quot;worms_jnl&quot;</span>,<span class="st">&quot;worm_num&quot;</span>,<span class="st">&quot;jnl_start&quot;</span>)</span>
+<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a>    <span class="co"># appends rows to size_mat</span></span>
+<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a>    size_mat[<span class="fu">nrow</span>(size_mat) <span class="sc">+</span> <span class="dv">1</span>,] <span class="ot">=</span> <span class="fu">c</span>(frames,</span>
+<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">paste</span>(stim_folders[i],jnl_folders[j],<span class="at">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="co"># stimulant + jnl</span></span>
+<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a>                                      k, <span class="co"># final worm of each journal (= worms per journal)</span></span>
+<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a>                                      worm_num, <span class="co"># worm count (= total worms up to that journal)</span></span>
+<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a>                                      worm_num <span class="sc">-</span> k <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># starting worm for each jnl</span></span>
+<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># ends iteration through JNL folders</span></span>
+<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration through stim_folders</span></span>
+<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a><span class="co"># drop first row (Nas) from size_mat</span></span>
+<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a>size_mat <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(size_mat)</span></code></pre></div>
+<p>Although, during this iteration, I created some helpful variables to
+help me later on during analysis.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(size_mat)</span></code></pre></div>
+<pre><code>## Rows: 2
+## Columns: 5
+## $ frames    &lt;chr&gt; &quot;1799&quot;, &quot;1799&quot;
+## $ stim_jnl  &lt;chr&gt; &quot;odr7p_Bcary_5percent_JNL_10off_120on_50off&quot;, &quot;odr7p_NH4Br_J…
+## $ worms_jnl &lt;chr&gt; &quot;4&quot;, &quot;3&quot;
+## $ worm_num  &lt;chr&gt; &quot;4&quot;, &quot;7&quot;
+## $ jnl_start &lt;chr&gt; &quot;1&quot;, &quot;5&quot;</code></pre>
+<hr />
+<p>The next 3 parts will all be related to producing the <strong>Average
+dff</strong> plots.</p>
+<p>For this, we will use the clean .csv files that we created!</p>
+<p>This is the approach:</p>
+<ol style="list-style-type: decimal">
+<li><p>Gather all individual dff values from the csv files into a single
+dataframe called <strong>dff_all</strong></p></li>
+<li><p><strong>Average</strong> dff values by Stimulant + JNL and store
+them in <em>avg_all</em></p></li>
+<li><p><strong>Plot Average dff!</strong></p></li>
+</ol>
+</div>
+</div>
+<div id="part-2---gather-dff-values-into-dff_all" class="section level2">
+<h2>Part 2 - Gather dff values into dff_all</h2>
+<p>We previously calculated dff for each worm and stored it into our
+clean csv files.</p>
+<p>Therefore, to grab those dff values, we must iterate through each csv
+file.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># points to location of csv file on the computer</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>csv_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># lists all .csv files in that path</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>csvfiles <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> csv_path)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates a dataframe to store all dff values</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>dff_all <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> frames, <span class="at">ncol =</span> <span class="fu">length</span>(csvfiles)))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># adds column names as dff{n}</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dff_all) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">&quot;dff_worm&quot;</span>,(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(csvfiles)),<span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterates through each csv file (i.e., for each worm)</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(csvfiles)){</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reads in csv files</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  csv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>, csvfiles[l]))</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stores dff column into dff_all</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  dff_all[l] <span class="ot">&lt;-</span> csv_data<span class="sc">$</span>dff</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Here are all the dff values for each worm:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(dff_all)</span></code></pre></div>
+<pre><code>## Rows: 1,799
+## Columns: 7
+## $ dff_worm1 &lt;dbl&gt; 7.78421419, 5.50019255, 3.89903325, 3.39011396, 2.81392763, …
+## $ dff_worm2 &lt;dbl&gt; 7.51252268, 5.64086815, 4.22507746, 3.39734039, 2.62651173, …
+## $ dff_worm3 &lt;dbl&gt; 19.86658078, 14.93156216, 11.46215748, 9.74996576, 7.4428012…
+## $ dff_worm4 &lt;dbl&gt; 30.32544393, 23.40312824, 19.23385301, 16.16684304, 15.23879…
+## $ dff_worm5 &lt;dbl&gt; 0.7500382, -0.8659774, -1.8515417, -1.5657475, -1.6588823, -…
+## $ dff_worm6 &lt;dbl&gt; 25.3349649, 19.9867124, 18.2970356, 16.1368218, 14.7754106, …
+## $ dff_worm7 &lt;dbl&gt; 12.92793365, 11.11446736, 9.80852556, 8.59925509, 7.75250211…</code></pre>
+</div>
+<div id="part-3---average-dff-values-by-stimulant-journal" class="section level2">
+<h2>Part 3 - Average dff values by Stimulant + Journal</h2>
+<p>Now that we have dff values all stored in dff_all, we can now take
+the averages of those based on the Stimulant + JNL combination.</p>
+<p>To do this, we can use <em>size_mat</em> to iterate through the
+Stimulant + JNLs (treatments), which only requires one for-loop.</p>
+<p><em>(As opposed to previously, where we iterated through 3 sets of
+folders and therefore needed 3 nested for-loops. Creating the .csv files
+was useful for reducing the amount of separate iterations we must do to
+access our data.)</em></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates a dataframe to store all average dff values (averaged by journal)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 columns because there are 2 unique stim + jnl combinations</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>avg_all <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> frames, <span class="at">ncol =</span> <span class="fu">nrow</span>(size_mat)))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># adds column names as stim_jnl{n}</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(avg_all) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">&quot;stim_jnl&quot;</span>,(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(size_mat)),<span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># iterates over each row in size_mat (i.e., m = the current stim_jnl)</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(size_mat)){</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if first stim_jnl, starts with 1st worm</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(m <span class="sc">==</span> <span class="dv">1</span>, start_worm <span class="ot">&lt;-</span>  <span class="dv">1</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>         <span class="co"># else, starts with 1st worm of the current journal</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>         start_worm <span class="ot">&lt;-</span> size_mat<span class="sc">$</span>jnl_start[m])</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ending worm = final worm of current stim_jnl</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  end_worm <span class="ot">&lt;-</span> size_mat<span class="sc">$</span>worm_num[m]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculates averages across rows, only for worms that correspond to the current stim_jnl (removes NAs)</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stores this in column of avg_all corresponding to current stim_jnl</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  avg_all[m] <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(dff_all[,start_worm<span class="sc">:</span>end_worm])</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration for each jnl (row in size_mat)</span></span></code></pre></div>
+<p>Here are the Average dff values (for each treatment group = Stimulant
++ JNL).</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(avg_all)</span></code></pre></div>
+<pre><code>## Rows: 1,799
+## Columns: 2
+## $ stim_jnl1 &lt;dbl&gt; 16.37219039, 12.36893777, 9.70503030, 8.17606579, 7.03050944…
+## $ stim_jnl2 &lt;dbl&gt; 13.004312271, 10.078400766, 8.751339813, 7.723443160, 6.9563…</code></pre>
+</div>
+<div id="part-4---plot-average-dff" class="section level2">
+<h2>Part 4 - Plot Average dff</h2>
+<p>Here is where the Average dff (per treatment group) was plotted. To
+do this, we have once again used the handy variable <em>size_mat</em> to
+help us iterate through the Stimulant + JNLs, without having to iterate
+through 3 different folders!</p>
+<p>Note: This likely could have been done in the previous iteration, but
+I chose to do it separately for ease of understanding.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates dataframe to hold only the x &amp; y values for plotting</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> frames, <span class="at">ncol =</span> <span class="dv">2</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># column names</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot_data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># iterates for each journal (# of rows in size_mat)</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(size_mat)){</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># updates plot_data with appropriate data</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">x =</span> time_data, <span class="co"># assigns time data to x column</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> avg_all[,n]) <span class="co"># assigns current column of avg_all to y column</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generates plot of average % df/f over time in s</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(plot_data)<span class="sc">+</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># axis scales by 10</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">180</span>, <span class="at">by =</span> <span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adds red vertical line to notable timepoints for stimulant ON &amp; OFF</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">130</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifies line plot, &amp; size/color of line</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> y),</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">linewidth =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifies plot labels</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>,</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;% dF/F&quot;</span>,</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&quot;Average Change in fluorescence over time&quot;</span>,</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> size_mat<span class="sc">$</span>stim_jnl[n])<span class="sc">+</span> <span class="co"># current stimulant + jnl</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifies color and size of plot elements</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;saddlebrown&quot;</span>),</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;gray30&quot;</span>),</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># saves plot to output folder, and names it by worm folder name</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;output&quot;</span>,<span class="st">&quot;average_dff&quot;</span>,<span class="fu">paste</span>(<span class="st">&quot;plot&quot;</span>,size_mat<span class="sc">$</span>stim_jnl[n],<span class="st">&quot;.png&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)),</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>         <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration</span></span></code></pre></div>
+<p>Here is one of the two Average dff plots I have so far! (One for each
+treatment group)</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAABpFBMVEUAAAAAADoAAGYAAP8AOjoAOmYAOpAAZrYzMzM6AAA6ADo6AGY6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmOgBmOjpmZjpmkJBmkLZmkNtmtttmtv9uTU1uTW5uTY5ubo5ubqtuq+SLRROLRUSLRW2LaESLaJSLiG2LiLmOTU2OTW6OTY6Obk2ObquOyP+QOgCQOjqQZgCQZjqQkGaQtpCQttuQ2/+fRROfRUSfRW2faBOfaG2faJSfiG2fiLmfqJSfqNyrbk2rbm6rjk2r5OSr5P+zRROzRUSzRW2zaBOzaJSziG2zqJSzxv+2ZgC2Zjq2kDq2kGa2tpC225C227a229u22/+2///HaBPHaETHaG3HiBPHqETHqG3H4v/Ijk3I///aiBPa4pTa/7na/9za///bkDrbkGbbtmbbtpDb25Db29vb2//b///kq27k///r6+vtqETtxrnt////AAD/tmb/xm3/yI7/25D/27b/29v/4pT/5Kv//7b//7n//8j//9v//9z//+T///8Yuc2iAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAXpElEQVR4nO2di38dx1mGVxa2I1pKggS2W9NSKwRbmFAnIENJ7QQKRIATbrZDAbst4AtgNYHKkvBNqSRL0f7TzOzu7HV2d/b+ffu9zy+1rHNmZvfM++ib2T1yj+cDQBhv6hMAoAoICkgDQQFpICggDQQFpIGggDQQFJAGggLStBJ0b8k7db/bcb/4Tc9bePOe7x9e8FabH79w+C8vet7Xiw9Pwy/urtrOEbSglaCbntfcqgx3vYCFG30JekeN9qtEnDi+7kHQvmgj6PH1hW97Z7sc9YW3cElV0SXvzFYbQS3c8ZbJOBEICvqhjaB7S2f+J3BBWxHF8bMlb+G7esFe+JOlU/eOdYV8c8sPHn/r82BDELXQqC7L+uumWuOVoJfuho1NL/3Q96v6axPTjfSAqhx/ED68qn8AdI89teyf/kF8UvEIX+rtxSXd7/Ol5DDh6SeD5p+LDh2NWfrSo5M59c/qZPaWFj646J2+pzqdvp8fCTjRRtBN72wYzQtVAcO6dSdYsZd1wp56MPz2bLgZ0HElLTQquBtmsKBH2Nj0Sj1U1j8w0TQqEfRF2OBS9qSWzfCrZnT1GnJPJUdOPRcQj1n60rOCBs/90lL69S13TEwYLQQN5NzUM66Kxo3gb3u6dETanN36+eEFXa+86Nsvr3s6q6iFHiG9FqsmZ+75nwWNk15n7h3fqe6fNAqGMUt8ImjQ9/gz87efxyMEPx6b4e5iOfhhSZ9+cuTcc9HJxmPaX3o8QeGR1EOfe95bW5v5lwAcaSFoMMd7Zo0P0ogKi7dqdpTHP/q250UuBLrELeIRItJrctQreaiif7qfbxM0PIj+3jyWnOPCmz/YSp1G7vST3unnkhMPWpW+9Iyg6vSDPwovATjSQtDNZKLVQhfsRjeTlLRRx3ejhTnaC6omm9mcM0t85ETcK3motL+DoJHzarsbnlQygt5H6qU27pw6/Wzv7KuNf46uB52tL11TImhmJOBIc0GDLVa0UQuu55f9YMEMngxTUhfpv/W/epeWVMC4RTREsBN78Sv/6qediHrZKmimf+MKGgqajPALVaqD1dtIGJ9+oYIWDhy1Knnp0cvLCBrsh3MvATjSXNCo/IVqbAb3MvWd+0v+52Zrph49ff/4j0PV4j1k1CIYYzN/mykMMOmV3kcW+1cIquSIeuT2i8k5qj5hXVMtfm3ry4vecur0U0fOPaePkoxZ9tI1wc9fUdDsFAA3mgsaFYIwy72l8LvkUjYsedFiHS6AX89fhRdv1Kf2aBn37P0rBI3apa7iV01tMyNES4A6703TNHUlnjly4cTjMcteenQy4S2FrKC4im9DY0HN8qym+2zy3fFn8c1AndLPlrzT/xL8Vd/HDNIxLSK+uJh5qzNoYnql3bP2rxL0+Pue941/Ch7+IrkPeiN1jkGT1L3Oe+nTTwbNP5ectx6z9KUH53fRO/WjoqC5KQAuDPvLIsGS6LfffHXtD9gz8G8zRQtu62Wta3/AnYEFPb6rFsoOy1rX/oA7+H1QQBoICkgDQQFpICggDQQFpIGggDQQFJAGggLSdBL09acP9JeXa5qPs8/t39QP7H/0RP0X/iX6c/+mbv27D3Jj6ZbZLtknff+rH69dTR5/vPbuv629+yzTQg99O98wf1prulflWIAQfQiqeZlXYv+mfiQn6GP1WPi3YnstaKZL6jif6Ccef0//lxw6dfSwxetPbvsvlfmZhjlehk9UjQUo0ZOg2o0s+x/9+8d5QV/+3kdG0IIRQctMl5jdtT9XD+geyRPZVmGLl0FpvJ1tmOPxx+bEy8YCpGghqFol9QKtFvbf//TB/p/9na5uu9qNn/zH2lpclvY/+u+fPskK+tVP/zMWVFWyqGvc/kmuS8z/PduP+gVi6cOH+4S125kWGvWTkmmof1BS24+vfvIgOljpWIAUzQUNFtKrT/SXXZ2uDlbVLf2HftS4oBzQEuqFO8hfubj7cbIHVc6EXf2kfdLFtgeNpIoOn29lvlE/KbmGamOb7Cdef/qnobVVYwFCNBc0Clevp+rL/ocP/PgiRgm3+72kmSpX6Qr6+u/jSqi+/zDqmho21yV3zOi4yReboLtXCw0/zKzm6rvXf/ukeixAiOaCRju93UjQINlAy0DQl+ZiOHDqL9KCPr7tJ4JGS3FC1DLVJftk+gdDHcku6K7eexQa5nakiZklYwFCdK6g4dW5XtgLFVQ9/o+JoP/1SbjViy+SMlcp8cqedCke0zQqq6C7V831V6ZhUdDqsQAhOu9B48Vd/fnus+RqProxebV4HzSsde8+S6QIxooeSLqkCNUNbg1V7EHNniHfMCWo3o3u//BZ9ViAEO2v4tWXv4zKYHjP6Ksf/0Pqejny0CLozeiaKSXFy9QDusvN3J3/8CifBDfXzcV5UdDH0dV4vmH6SLvBkarHAoTo8a3OsI4C0CcQFJCmd0Gj25yF99qtVDauH8n9WI3OChACv80ESANBAWkgKCANBAWkgaCANBAUkKa5oDsOPHdpBMaGUywQVCCcYoGgAuEUCwQVCKdYIKhAOMUCQQXCKRYIKhBOsUBQgXCKBYIKhFMsEFQgnGKBoALhFAsEFQinWCCoQDjFAkEFwikWCCoQTrFAUIFwigWCCoRTLBBUIJxigaAC4RRLe0EXNTWjc5oJQXCKBYIKhFMsEFQgnGKBoALhFAsEFQinWCCoQDjFAkEFwikWCCoQTrFAUIFwigWCCoRTLBBUIJxigaAC4RQLBBUIp1ggqEA4xdJR0Jo2zxuPCkaAYyyooILgFAsEFQinWDoKWmMop5kQBKdY2gu6A0G5wikWCCoQTrFAUIFwigWCCoRTLBBUIJxigaAC4RQLBBUIp1ggqEA4xQJBBcIpFggqEE6xQFCBcIoFggqEUywQVCCcYukqaLWhnGZCEJxi6SCoQwnlNBOC4BQLBBUIp1ggqEA4xQJBBcIpFggqEE6xQFCBcIoFggqEUywQVCCcYoGgAuEUS2dBKw3lNBOC4BRLF0HrSyinmRAEp1ggqEA4xQJBBcIpFggqEE6xQFCBcIqlu6BVhnKaCUFwigWCCoRTLJ0ErV3jOc2EIDjFAkEFwikWCCoQTrFAUIFwiqUHQSsM5TQTguAUSzdB60oop5kQBKdYOgpaYyinmRAEp1ggqEA4xQJBBcIpll4ELTWU00wIglMsjQQ9urZybhuCsodTLE0EPdlY95+ezwpavcZzmglBcIqliaBH7z/yD955ZBG0zFBOMyEITrE0EfTg8rZ/9N4t9bc3FNGDoaAlPTh+MLkAOMbiIuirc0ZQTWQ4Kig/OMXSRNCkgqYErdyEcpoJQXCKpYmg1j1oZQnlNBOC4BRLE0FPNq4Ur+IjQe2KcpoJQXCKpYmgtvugO5WGcpoJQXCKpZGgGeIhICg3OMUCQQXCKZYeBK0wlNNMCIJTLH0IWm4op5kQBKdYIKhAOMXSi6ClhnKaCUFwiqVfQfOOcpoJQXCKpR9Bd9KCpizlNBOC4BRLT4Kma2iqjnKaCUFwiqUvQQuKBo5ymglBcIqlP0FthnKaCUFwigWCCoRTLD0KajHU/gYomBipgu7kHHX4pC8wBYIFLVRRCEoQyYLu2C/nASWEC7qTX+kBMSBoVtFxXglwBoKihpIGguY3ouO8FuAIBN1BCaUMBNWghpIFggakbtbDUFJA0BDzbicEJQYENeiZgKHkgKCGYCZgKDUgqCGcCQhKDAhqgKAkgaAGCEoSCGqIZgKG0gKCGsxMQFBSQFADBCUJBDVAUJJAUEM8EzCUEhDUAEFJAkENyUxAUEJAUAMEJQkENUBQkkBQAwQlCQQ1QFCSQFBDTlAYSgMIaoCgJJEhqAvJB5OHgg5yENCUuX5efBYX/VM/qqigdJBRQV1GzwsKQ0kAQQ0FQWEoBSCoIT0T+LdzZICgBpugMHRyIKghMxMQlAoQ1GAVFIZODQQ1ZGcCghIBghryMwFBSQBBDXZBYejEQFBDYSZgKAUgqKE4EzCUABDUUCooDJ0SCGqwzAQMnR4IarDNBG6HTg4ENVhnAoZODQQ12GcChk4MBDWUzMTiIhydEghqKJsJGDopENQAQUkCQQ2lMwFBpwSCGipmAopOBwQ1VM0EDJ0MCGqongkIOhEQ1FAzExB0GiCowU1QGDoyENRQNxMwdBIgqKF2JnChNAUQ1FA/ExB0AiCowV1QKDoiENTgMBMwdHwgqMFpJqDo2EBQg+NMwNBxgaCGpoLC0FGAoAbXmYChowJBDc4zAUPHBIIa3Gci9SvMizvwdFggqKHBTCzmaPuCQD0Q1NBoJmDoWEBQQ7OZgKEjAUENDWcCgo4DBDU0nwkYOgIQ1NBNUDg6EBDU0GImYOjwQFBD65mAoEMyP0EP3l5ZWff9o2sr57ZHERRvLQ3J7AQ9eu+Wf/Dbt0421v2n58cRFIYOyOwEfaWtfLh+9P4j/+CdR2MLCkf7ZnaCRlX04PJ2UEx9/w1FXQfNc5dGJWQvljoMBPJ0iWUq6gQ92bjivzpnBNW46N/xRxVFdBhmVUEfrqyc15dHV9Sl0uWRBcVOdBhmJWjAwdvqGt4fdQ8agRo6AKwFPfzmjRI/g2V+tKv4GCjaO/wFvbOcEfTpimZ9zPugCbic753ZCWrFZfReZgJvfvYNBDX0NBMQtF8gqKG3mUAV7RPegl7wIk7dpyMo/slSn7AW1BmX0XucibyhcLQ9rAU9vHCWpKAwtD9YC+r7L2pX90kEtSja6+iCYC6oH25EV8kJqoGjPcBfUM0dUhdJKWBoV+YhaB0uow80ExC0G6wFtb0XT01QKNoN/oKSu1FfAMt8ByCoYcCZwE60PRDUMOhMQNG2QFDDsDMBQ1vCW1Ca78XbgaGtYC2oMy6jjzATOUMhqgMQ1DDGTGQMRSl1gbWgrJb4gPy7nzC0DtaCajb1LzTVXSi5jD7WTEDRRnAXNHwzae9rTCqoplhF4Wg53AU9vh5U0DNbfAS1GQpFy+AuqDJUbUHrfm/ZZfQxZ8KmKBy1wl5QJ1xGH3UmYKgrENQw7kzAUEcgqGHkmQiNhKR1QFDDdDMBSSuAoIYJZwKGlgNBDVPOhHVHClM1MxD0hVf7zzpdRp96JmColaljaYJd0MNv3Q/+x13Q0jI69XlNy+SxNKAgaPA+52wEDYChOWjE4kaxgh5fP3V/Lkt8DBRNQyYWB2xL/OEFmv/XN12AoSnoxFKPTVA3RV1GJzQT2IomEIqllqKg4eper6jL6KRmIlISltKKpYaCoPH10XwukiKMjDCUVCw1lAs6syV+J/0P6oQrSiuWasqW+DkKmkL2dpRsLBaKgrriMjrlmRBsKOVY8sgVVHAVJR1LDsGC7oitotRjSdNeUBcYfDB51tCpz2YcGMRSQGYFDRFXQ3nEEgJBNcIM5RKLBoKGiKqifGKBoAmCDOUUCwRNEGMop1ggaIKYGsopFgiaQoqhnGKBoGmEGMopFgiaQ8I7S5xigaAF5q8op1ggaJHZG8opFghqYbHA1GfUL5xigaAWioLOy1BOsUBQGzM3lFMsELQUJ0VZusspFghajkMZ5VldOcUCQSupWeuZLv+cYoGg1VgMTZTkuknlFAsEdaDMUq6XUZxigaAulBhaswEgC6dYIKgT8zKUUywQtAGOhpLXlFMsELQJ7oWUdDXlFAsEbYrNQmaGcooFgrYjJyGvIsopFgjaloKCLorSkJZTLBC0NbYSWW0olcLKKRYI2i9WQxctO9UpT5JTLBB0EKyFlMzulFMsEHQoSrakELQZEHQ4IGgPQNABKTFzcks5xQJBB8ZWOKcupJxigaCDY1nZJ17sOcUCQcehStDRDeUUCwQdiayM0xrKKRYIOiIpFSc1lFMsEHQibBdPY8EpFgg6IVMZyikWCDopELQOCDoxU1RRTrFA0OkZ3VBOsUBQAox9vcQpFghKgZEN5RSLq6AnG+u+f3Rt5dw2BB2AcQ3lFIuroE9X1gNJn56HoIMw5n1RTrE4CnrwO3+w7h+9/8g/eOcRBB2GvKHDWcopFjdBT/7qb1T1PLi87R+9d0t9/4aipuQGcPxg8gnJV9HFgT7AnmMs1YI+vaKX91fnjKAaF/05/aiSwKLoAGWUUyy1gj5cWTmvSudJpoJC0MEYw1BOsThV0KcrmivYg46CrYr2aymnWNyW+PA208nGFVzFj8LAinKKpYmguA86HnZBe9KUUyyughZxGZ3TTFDDvtL3Uks5xQJBKTOQoZxigaDk6d9QTrFAUAb0rSinWCAoD3o1lFMsEJQN/SnKKRYIyop+FntOsUBQXiwWPuCuhaOcYoGgDOlaRjnFAkF50slRTrFAUKZ0MZRTLBCUKx0M5RQLBGXLouWCya0np1ggKHdaGMopFgjKn8aGcooFgs6BhrtRTrFA0FnQzFBOsUDQ2eCuKKdYIOh8KFTRMlU5xQJB54PlzqhdUU6xQNAZUW5oVlJOsUDQeeFkKKdYIOgMqVOUUywQdJ5UGsopFgg6U2InLYZyigWCzp+CopxigaACyC/0nGKBoDKAoFY4zcTcKbknSh0IKgiOhkJQSTA0FILKgp2hEFQazAyFoOLgVUQhqDh4bUQhqDxYGQpBBfLc+iskNIGgAnne5h/TTwQEFcjz0T+hvj0QVCA6Fi6GQlCBhLHwMBSCCiSKhUURbS+oCxw/mFwAcSw5RYf5dPp+QAUVRDYW2lUUggokHwsEBaQoxEK4hkJQgVQJSk1UCCqQYiwWQ4koCkEFYo+FpqQQVCAlsdgMnVxRCCqQslgoGgpBBVIRCzlDIahAqmIJjaQjKQQViEMsZAyFoAJxi4WGohBUIM6xEDAUggqkQSyTV1EIKpAmsUxtKAQVSLNYplUUggqkaSxTGgpBBdI8lukUhaACaRPLVIZCUIG0iqVwW3QcUyGoQNrFkn9zaZxaCkEF0j4WCApGoEMso1dRCCqQTrGMrCgEFUi3WMbdi0JQgXSMZVRDIahAeohlMf8xtUMpCkEF0lcsY9RRCCqQ3mIZwVAIKpD+Yimu9H07CkEF0ncsQ9ZRCCqQ3mMZ0FAIKpABYhlMUQgqkGFigaCgJwaKZZAaCkEFMlQsQyzzEFQgw8XSv6IQVCDDxtKvoxBUIAPH0usVPQQVyOCx5BXtYCkEFcgIsfSmKAQVyBixWAxt5SgEFchIsfRiKAQVyFix9GGom6AnGyu/fsv3j66tnNuGoOwZLRbrOt9MUzdBH677r85tn2ys+0/PQ1D2jBrLGIIevf/IfDl45xEE5c7YsSwWf63Z2VMnQQ8u/7Ve4g8ub/tH76ml3n9DUVlyI/B58SSZJBbrWu/evVrQt9e1nWqVjwTVuOiPCkqSqWJpU0VrBX24snI+Kp1JBYWgrJkuluaXTE4V9OgPAzOxB50JU8bS1FAnQfVVvCqfJxtXcBU/B6aOpYmkboIeXVv5jUe4DzoXCMTi7KiboDZcToPATIAiJGJx3I5CUIHQiMVqaMFTCCoQQrGUCJpICkEFQimWujIKQQVCKpZF6wfUx45CUIGQjKXEUAgqEKqx2AyFoAKhHUvWUAgqEOKxQFDp0I8Fe1DRsIgFgsqFRywQVCycYoGgAuEUCwQVCKdYIKhAOMUCQQXCKRYIKhBOsUBQgXCKBYIKhFMsEFQgnGKBoALhFAsEFQinWCCoQDjFAkEFwikWCCoQTrFAUIFwigWCCoRTLO0FBWBEICggDQQFpIGggDQQFJAGgvbI3pKnWfjga/fLmmwum7ZvjXRSzIGg/bJX7qbm8Fvx03dWhz+bGQBB+6VG0LiA+v6LM1uDn80MgKD9Egiq/ji+/p0l76xa88+qsnnBOxVqe/xHN5SZahOgvhx+88bE58oCCNoviaBntg4vnNna++Ubx9dX/c2wXOpntZi6euqHQS0QtF8SQVf96H/GSsULVUkPL0Ri3lmuGgiEQNB+sQmqr+0XQkF1IVUrvqcdhaAuQNB+Kamg6Wf9sJJCUCcgaL9YBNVfIjP1F7UrDQTFHtQJCNovFkH1mh6u8KGUuIpvAgQdFdwHbQoEHRW8k9QUCDouyXvx30ABdQGCAtJAUEAaCApIA0EBaSAoIA0EBaSBoIA0/w8XtWKTj9zZIgAAAABJRU5ErkJggg==" /><!-- --></p>
+</div>
+<div id="all-together-now" class="section level2">
+<h2>All together now!</h2>
+<p>Here is the <em>entire</em> project, where all of these parts work
+together to produce my desired data visualizations!</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Load Libraries ####-----------------------------------------------</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="do">#### Functions ####----------------------------------------------------</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Function to convert strings of scientific notation containing &quot;e&quot; (i.e., 1.234e+005) to numeric in expanded form (double)</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>e_to_num <span class="ot">&lt;-</span> <span class="cf">function</span>(string) {</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finds first instance of &quot;e&quot; in the string, subsets everything before it &amp; converts it to a numeric (double)</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substring</span>(string, <span class="dv">1</span>, <span class="fu">unlist</span>(<span class="fu">gregexpr</span>(<span class="st">&quot;e&quot;</span>, string))[<span class="dv">1</span>]))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finds first instance of &quot;+&quot; in the string, subsets everything after it &amp; converts it to a numeric (double)</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># note: this number is the exponent, so we will set 10^exponent</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  exponent <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="fu">as.numeric</span>(<span class="fu">str_sub</span>(string, <span class="fu">unlist</span>(<span class="fu">gregexpr</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">+&quot;</span>, string))[<span class="dv">1</span>]<span class="sc">+</span><span class="dv">1</span>, <span class="fu">str_length</span>(string))))</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># multiplies value by the 10^n exponent</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  expanded_num <span class="ot">&lt;-</span> value<span class="sc">*</span>exponent</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns numeric (double) of original string in expanded form</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(expanded_num)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Function for calculating df/f (% change in fluorescence)</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>dff <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># sets baseline fluorescence</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  f0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data[<span class="dv">10</span><span class="sc">:</span><span class="dv">40</span>]) <span class="co"># averages fluorescence data from frame 10-40 (1-4s)</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculates df/f as a percentage</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  dff <span class="ot">&lt;-</span> ((data <span class="sc">-</span> f0)<span class="sc">/</span>f0)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns dff</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dff)</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="do">#### Analysis ####-----------------------------------------------------</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="do">#### Part 1 - Get data, convert to clean csv, calculate dff, plot individual dff ####----------</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates a dataframe to hold information for convenience later</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 columns, but we will append more rows later</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>size_mat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">5</span>))</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="co"># worm_num is the current worm being analyzed overall</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>worm_num <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a><span class="co"># points to worm strain + stimulant folder on the computer</span></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>stim_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>)</span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a><span class="co"># lists all folders in that path</span></span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>stim_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> stim_path)</span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterates through each stimulant folder</span></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stim_folders)){</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># points to JNL folder on the computer</span></span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>  jnl_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i])</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lists all JNL folders in that path</span></span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>  jnl_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> jnl_path)</span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterates through each JNL folder within the current stimulant folder</span></span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(jnl_folders)){</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># points to worm folder on the computer</span></span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>    worm_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i], jnl_folders[j])</span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># lists all worm folders in that path</span></span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>    worm_folders <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> worm_path)</span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterates through each worm folder within the current JNL folder</span></span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(worm_folders)){</span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>      <span class="co"># adds +1 to worm count</span></span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>      worm_num <span class="ot">=</span> worm_num <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>      <span class="co"># points to the location of tracked worm data (logfiles) on the computer</span></span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>      logfile_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i], jnl_folders[j], worm_folders[k])</span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>      <span class="co"># lists all logfiles in that path (contains &quot;.log&quot;)</span></span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>      logfiles <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> logfile_path, <span class="at">pattern =</span> <span class="st">&quot;.log&quot;</span>)</span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>      <span class="co"># reads in current logfile into rawdata</span></span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>      rawdata <span class="ot">&lt;-</span> <span class="fu">read_log</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;data&quot;</span>, <span class="st">&quot;GCaMP_data&quot;</span>, stim_folders[i],jnl_folders[j],worm_folders[k],logfiles))</span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>      wormdata <span class="ot">&lt;-</span> rawdata <span class="sc">%&gt;%</span> </span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds column for stimulant and JNL type</span></span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">stim_jnl =</span> <span class="fu">paste</span>(stim_folders[i],jnl_folders[j], <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>),</span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>               <span class="co"># renames default column names (Xn) to specified variable names</span></span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>               <span class="at">frame =</span> rawdata<span class="sc">$</span>X1,</span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>               <span class="at">time_s =</span> (rawdata<span class="sc">$</span>X2)<span class="sc">/</span><span class="dv">1000</span>, <span class="co"># converts time in ms to s</span></span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>               <span class="at">fluor =</span> rawdata<span class="sc">$</span>X3,</span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a>               <span class="at">.keep =</span> <span class="st">&quot;used&quot;</span>) <span class="co"># only keeps mutated columns</span></span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>      <span class="co"># For fluor column, removes commas and converts values from sci notation (chr) to expanded form (dbl)</span></span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>      wormdata <span class="ot">&lt;-</span> wormdata <span class="sc">%&gt;%</span> </span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">fluor =</span> <span class="fu">str_replace_all</span>(fluor, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">,&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>               <span class="at">fluor =</span> <span class="fu">e_to_num</span>(fluor)) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds column for calculating dff</span></span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">dff =</span> <span class="fu">dff</span>(fluor))</span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>      <span class="co"># converts wormdata to csv and saves to clean_csv folder within data folder, naming it based on stimulant, JNL, and worm ID</span></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write_csv</span>(wormdata, <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>, <span class="fu">paste</span>(stim_folders[i],jnl_folders[j],logfiles, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)))</span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>      <span class="co"># generates plot of % df/f over time in s</span></span>
+<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>        <span class="co"># axis scales by 10</span></span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">180</span>, <span class="at">by=</span><span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>        <span class="co"># adds red vertical line to notable timepoints for stimulant ON &amp; OFF</span></span>
+<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">130</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies line plot, &amp; size/color of line</span></span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>(<span class="at">data =</span> wormdata,</span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> time_s, <span class="at">y =</span> dff),</span>
+<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies plot labels</span></span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>,</span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">&quot;% dF/F&quot;</span>,</span>
+<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Change in fluorescence over time&quot;</span>,</span>
+<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="fu">str_replace_all</span>(stim_folders[i], <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>), jnl_folders[j]),</span>
+<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> worm_folders[k])<span class="sc">+</span></span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a>        <span class="co"># specifies color and size of plot elements</span></span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;saddlebrown&quot;</span>),</span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;gray30&quot;</span>),</span>
+<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a>              <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-123"><a href="#cb26-123" aria-hidden="true" tabindex="-1"></a>      <span class="co"># saves plot to output folder, and names it by worm folder name</span></span>
+<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;output&quot;</span>,<span class="st">&quot;individual_dff&quot;</span>,<span class="fu">paste</span>(<span class="st">&quot;plot&quot;</span>,stim_folders[i],jnl_folders[j],worm_folders[k],<span class="st">&quot;.png&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)),</span>
+<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a>             <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)</span>
+<span id="cb26-126"><a href="#cb26-126" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-127"><a href="#cb26-127" aria-hidden="true" tabindex="-1"></a>      <span class="co"># number of frames is the number of rows within wormdata</span></span>
+<span id="cb26-128"><a href="#cb26-128" aria-hidden="true" tabindex="-1"></a>      frames <span class="ot">&lt;-</span> <span class="fu">nrow</span>(wormdata)</span>
+<span id="cb26-129"><a href="#cb26-129" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-130"><a href="#cb26-130" aria-hidden="true" tabindex="-1"></a>      <span class="co"># dataframe to store time information (to use for plotting later)</span></span>
+<span id="cb26-131"><a href="#cb26-131" aria-hidden="true" tabindex="-1"></a>      time_data <span class="ot">&lt;-</span> wormdata<span class="sc">$</span>time_s</span>
+<span id="cb26-132"><a href="#cb26-132" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb26-133"><a href="#cb26-133" aria-hidden="true" tabindex="-1"></a>    } <span class="co"># ends iteration through worm folders</span></span>
+<span id="cb26-134"><a href="#cb26-134" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-135"><a href="#cb26-135" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adds column names to size_mat</span></span>
+<span id="cb26-136"><a href="#cb26-136" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(size_mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;frames&quot;</span>,<span class="st">&quot;stim_jnl&quot;</span>,<span class="st">&quot;worms_jnl&quot;</span>,<span class="st">&quot;worm_num&quot;</span>,<span class="st">&quot;jnl_start&quot;</span>)</span>
+<span id="cb26-137"><a href="#cb26-137" aria-hidden="true" tabindex="-1"></a>    <span class="co"># appends rows to size_mat</span></span>
+<span id="cb26-138"><a href="#cb26-138" aria-hidden="true" tabindex="-1"></a>    size_mat[<span class="fu">nrow</span>(size_mat) <span class="sc">+</span> <span class="dv">1</span>,] <span class="ot">=</span> <span class="fu">c</span>(frames,</span>
+<span id="cb26-139"><a href="#cb26-139" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">paste</span>(stim_folders[i],jnl_folders[j],<span class="at">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="co"># stimulant + jnl</span></span>
+<span id="cb26-140"><a href="#cb26-140" aria-hidden="true" tabindex="-1"></a>                                      k, <span class="co"># final worm of each journal (= worms per journal)</span></span>
+<span id="cb26-141"><a href="#cb26-141" aria-hidden="true" tabindex="-1"></a>                                      worm_num, <span class="co"># worm count (= total worms up to that journal)</span></span>
+<span id="cb26-142"><a href="#cb26-142" aria-hidden="true" tabindex="-1"></a>                                      worm_num <span class="sc">-</span> k <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># starting worm for each jnl</span></span>
+<span id="cb26-143"><a href="#cb26-143" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-144"><a href="#cb26-144" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># ends iteration through JNL folders</span></span>
+<span id="cb26-145"><a href="#cb26-145" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-146"><a href="#cb26-146" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration through stim_folders</span></span>
+<span id="cb26-147"><a href="#cb26-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-148"><a href="#cb26-148" aria-hidden="true" tabindex="-1"></a><span class="co"># drop first row (Nas) from size_mat</span></span>
+<span id="cb26-149"><a href="#cb26-149" aria-hidden="true" tabindex="-1"></a>size_mat <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(size_mat)</span>
+<span id="cb26-150"><a href="#cb26-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-151"><a href="#cb26-151" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Part 1 complete!</span></span>
+<span id="cb26-152"><a href="#cb26-152" aria-hidden="true" tabindex="-1"></a><span class="st">Clean csv files generated (see data)</span></span>
+<span id="cb26-153"><a href="#cb26-153" aria-hidden="true" tabindex="-1"></a><span class="st">Individual dff plots generated (see outputs)&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;Part 1 complete!\nClean csv files generated (see data)\nIndividual dff plots generated (see outputs)&quot;</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Part 2 - Gather dff values into dff_all ####-------------</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># points to location of csv file on the computer</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>csv_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># lists all .csv files in that path</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>csvfiles <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> csv_path)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates a dataframe to store all dff values</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>dff_all <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> frames, <span class="at">ncol =</span> <span class="fu">length</span>(csvfiles)))</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># adds column names as dff{n}</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dff_all) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">&quot;dff_worm&quot;</span>,(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(csvfiles)),<span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterates through each csv file (i.e., for each worm)</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(csvfiles)){</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reads in csv files</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  csv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean_csv&quot;</span>, csvfiles[l]))</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stores dff column into dff_all</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  dff_all[l] <span class="ot">&lt;-</span> csv_data<span class="sc">$</span>dff</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Part 2 complete!</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="st">Gathered all dff values into dff_all.&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;Part 2 complete!\nGathered all dff values into dff_all.&quot;</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Part 3 - Average dff values by Stimulant + Journal &amp; Plot them! ####-------------</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates a dataframe to store all average dff values (averaged by journal)</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 columns because there are 2 unique stim + jnl combinations</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>avg_all <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> frames, <span class="at">ncol =</span> <span class="fu">nrow</span>(size_mat)))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># adds column names as stim_jnl{n}</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(avg_all) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">&quot;stim_jnl&quot;</span>,(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(size_mat)),<span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># iterates over each row in size_mat (i.e., m = the current stim_jnl)</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(size_mat)){</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if first stim_jnl, starts with 1st worm</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(m <span class="sc">==</span> <span class="dv">1</span>, start_worm <span class="ot">&lt;-</span>  <span class="dv">1</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>         <span class="co"># else, starts with 1st worm of the current journal</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>         start_worm <span class="ot">&lt;-</span> size_mat<span class="sc">$</span>jnl_start[m])</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ending worm = final worm of current stim_jnl</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  end_worm <span class="ot">&lt;-</span> size_mat<span class="sc">$</span>worm_num[m]</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculates averages across rows, only for worms that correspond to the current stim_jnl (removes NAs)</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stores this in column of avg_all corresponding to current stim_jnl</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  avg_all[m] <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(dff_all[,start_worm<span class="sc">:</span>end_worm])</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration for each jnl (row in size_mat)</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Part 3 complete!</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="st">Average dff calculated and stored in avg_all&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;Part 3 complete!\nAverage dff calculated and stored in avg_all&quot;</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Part 4 - Plotting Average dff ####-------------</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-allocates dataframe to hold only the x &amp; y values for plotting</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> frames, <span class="at">ncol =</span> <span class="dv">2</span>))</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># column names</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot_data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># iterates for each journal (# of rows in size_mat)</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(size_mat)){</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># updates plot_data with appropriate data</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">x =</span> time_data, <span class="co"># assigns time data to x column</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> avg_all[,n]) <span class="co"># assigns current column of avg_all to y column</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generates plot of average % df/f over time in s</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(plot_data)<span class="sc">+</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># axis scales by 10</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">180</span>, <span class="at">by =</span> <span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adds red vertical line to notable timepoints for stimulant ON &amp; OFF</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">130</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifies line plot, &amp; size/color of line</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> y),</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">linewidth =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifies plot labels</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>,</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;% dF/F&quot;</span>,</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&quot;Average Change in fluorescence over time&quot;</span>,</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> size_mat<span class="sc">$</span>stim_jnl[n])<span class="sc">+</span> <span class="co"># current stimulant + jnl</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifies color and size of plot elements</span></span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">&quot;saddlebrown&quot;</span>),</span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;gray30&quot;</span>),</span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># saves plot to output folder, and names it by worm folder name</span></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;IndependentProject_Mackie&quot;</span>,<span class="st">&quot;output&quot;</span>,<span class="st">&quot;average_dff&quot;</span>,<span class="fu">paste</span>(<span class="st">&quot;plot&quot;</span>,size_mat<span class="sc">$</span>stim_jnl[n],<span class="st">&quot;.png&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)),</span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>         <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>} <span class="co"># ends iteration</span></span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Part 4 complete!</span></span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a><span class="st">Average dff plots generated! (see outputs)&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;Part 4 complete!\nAverage dff plots generated! (see outputs)&quot;</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Done!&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;Done!&quot;</code></pre>
+</div>
+<div id="future-notes" class="section level2">
+<h2>Future notes</h2>
+<p>Although this does what I need and works pretty well, a project can
+always be improved upon!</p>
+<p>Here are some things I’d like to work on &amp; add to this project in
+the future:</p>
+<ul>
+<li><p>Plot individual worm dff &amp; average dff together. This makes
+it easier to see how close individual worms are to each other, and how
+the average compares to each worm in the sample.</p></li>
+<li><p>Making the code “future-proof.” I want to be able to add new data
+to it without worrying about my code breaking. The data I am working
+with have different journal programs, and therefore different numbers of
+frames and times. I would need to make adjustments so that my data can
+be plotted successfully for all of my different experimental
+conditions.</p></li>
+<li><p>Additional tidying &amp; efficiency in general.</p></li>
+<li><p>Other calculations I could make &amp; other ways to visualize my
+data.</p></li>
+</ul>
+<div id="thanks-for-reading" class="section level6">
+<h6>Thanks for reading!</h6>
+</div>
+</div>
     </section>
   </div>
 </div>
