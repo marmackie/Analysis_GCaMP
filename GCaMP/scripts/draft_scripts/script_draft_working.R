@@ -410,10 +410,13 @@ for (o in 1:length(SEM_all)){
                            ymax = pSEM,
                            ymin = nSEM))+
       
-        # axis scales by 10, from 0-180s
+        # x axis scales by 10, from 0-180s
         scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
         
-        # scales y by 10
+        # sets y-axis  
+        coord_cartesian(ylim = c(-100,60))+
+        
+        # y axis scales y by 10
         scale_y_continuous(breaks = seq(from = -100, to = 100, by=10))+
         
         # adds red vertical line to notable timepoints for stimulant ON & OFF
@@ -454,10 +457,13 @@ for (o in 1:length(SEM_all)){
                            ymax = pSEM,
                            ymin = nSEM))+
         
-        # axis scales by 10, from 0-60s
+        # x axis scales by 10, from 0-60s
         scale_x_continuous(breaks = seq(from = 0, to = 60, by = 10))+
         
-        # scales y by 10
+        # sets y-axis  
+        coord_cartesian(ylim = c(-100,60))+
+        
+        # y axis scales y by 10
         scale_y_continuous(breaks = seq(from = -100, to = 100, by=10))+
         
         # adds red vertical line to notable timepoints for stimulant ON & OFF
@@ -499,10 +505,13 @@ for (o in 1:length(SEM_all)){
                            ymax = pSEM,
                            ymin = nSEM))+
       
-      # axis scales by 10, from 0-60s
+      # x axis scales by 10, from 0-60s
       scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
         
-      # scales y by 10
+      # sets y-axis  
+      coord_cartesian(ylim = c(-100,60))+
+        
+      # y axis scales y by 10
       scale_y_continuous(breaks = seq(from = -100, to = 100, by=10))+
       
       # specifies line plot, & size/color of line
