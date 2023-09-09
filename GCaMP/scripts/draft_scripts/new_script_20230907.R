@@ -15,6 +15,7 @@ library(tidytext)
 library(gplots)
 library(RColorBrewer)
 library(wrMisc)
+library(dplyr)
 
 #### Functions ####----------------------------------------------------
 # globally removes sci notation
