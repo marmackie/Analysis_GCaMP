@@ -1,11 +1,11 @@
 #### General Info ####-------------------------------------------------
 # 
 # This script will be based on the working script for batch analysis of GCaMP data
-# Adjustments to be made for newest data batch 202307
+# Adjustments made for newest data batch 202307
 #
 # created: 2023-09-07; by Marisa Mackie
 # collaborators: Isaiah Martinez
-# edited: 2023-09-08
+# edited: 2023-09-17
 #
 
 #### Load Libraries ####-----------------------------------------------
