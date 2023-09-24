@@ -99,15 +99,42 @@ if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == TRUE){
   # generates plot of % df/f over time in s
   ggplot()+
     
-    # sets x-axis to match time of JNL
-    coord_cartesian(ylim = c(0,180))+
+    # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+    coord_cartesian(xlim = c(0,180), ylim = c(-100,100))+
     
-    # sets y-axis from -100 to 100
-    coord_cartesian(ylim = c(-100,100))+
     
     # adds red vertical line to notable timepoints for stimulant ON & OFF
     geom_vline(xintercept = 10, color = "red")+
     geom_vline(xintercept = 130, color = "red")+
+    
+    # specifies line plot, & size/color of line
+    geom_line(data = wormdata,
+              mapping = aes(x = time_s, y = dff),
+              color = "black", linewidth = 1)+
+    
+    # specifies plot labels
+    labs(x = "Time (s)",
+         y = "% dF/F",
+         title = "Change in fluorescence over time",
+         subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+         caption = logfiles[k])+
+    
+    
+    # specifies color and size of plot elements
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+          plot.caption = element_text(size = 8, color = "gray30"),
+          axis.title = element_text(size = 10))
+}
+
+if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == TRUE & 
+   str_detect(wormdata$stim_jnl[k], "lightbasal") == TRUE){
+  
+  # generates plot of % df/f over time in s
+  ggplot()+
+    
+    # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+    coord_cartesian(xlim = c(0,180), ylim = c(-100,100))+
     
     # specifies line plot, & size/color of line
     geom_line(data = wormdata,
@@ -134,11 +161,8 @@ if(str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == TRUE){
   # generates plot of % df/f over time in s
   ggplot()+
     
-    # sets x-axis to match time of JNL
-    coord_cartesian(ylim = c(0,60))+
-    
-    # sets y-axis from -100 to 100
-    coord_cartesian(ylim = c(-100,100))+
+    # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+    coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
     
     # adds red vertical line to notable timepoints for stimulant ON & OFF
     geom_vline(xintercept = 10, color = "red")+
@@ -164,17 +188,42 @@ if(str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == TRUE){
           axis.title = element_text(size = 10))
 }
 
-if((str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == FALSE &
-    str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == FALSE) |
+if(str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == TRUE &
    str_detect(wormdata$stim_jnl[k], "lightbasal") == TRUE){
+  
   # generates plot of % df/f over time in s
   ggplot()+
     
-    # sets x-axis to match time of JNL
-    coord_cartesian(ylim = c(0,60))+
+    # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+    coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
     
-    # sets y-axis from -100 to 100
-    coord_cartesian(ylim = c(-100,100))+
+    # specifies line plot, & size/color of line
+    geom_line(data = wormdata,
+              mapping = aes(x = time_s, y = dff),
+              color = "black", linewidth = 1)+
+    
+    # specifies plot labels
+    labs(x = "Time (s)",
+         y = "% dF/F",
+         title = "Change in fluorescence over time",
+         subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+         caption = logfiles[k])+
+    
+    
+    # specifies color and size of plot elements
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+          plot.caption = element_text(size = 8, color = "gray30"),
+          axis.title = element_text(size = 10))
+}
+
+if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == FALSE &
+   str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == FALSE){
+  # generates plot of % df/f over time in s
+  ggplot()+
+    
+    # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+    coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
     
     # specifies line plot, & size/color of line
     geom_line(data = wormdata,

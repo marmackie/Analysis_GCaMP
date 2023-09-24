@@ -142,6 +142,35 @@ for (k in 1:length(logfiles)){
             axis.title = element_text(size = 10))
   }
   
+  if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == TRUE & 
+     str_detect(wormdata$stim_jnl[k], "lightbasal") == TRUE){
+    
+    # generates plot of % df/f over time in s
+    ggplot()+
+      
+      # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+      coord_cartesian(xlim = c(0,180), ylim = c(-100,100))+
+      
+      # specifies line plot, & size/color of line
+      geom_line(data = wormdata,
+                mapping = aes(x = time_s, y = dff),
+                color = "black", linewidth = 1)+
+      
+      # specifies plot labels
+      labs(x = "Time (s)",
+           y = "% dF/F",
+           title = "Change in fluorescence over time",
+           subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+           caption = logfiles[k])+
+      
+      
+      # specifies color and size of plot elements
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+            plot.caption = element_text(size = 8, color = "gray30"),
+            axis.title = element_text(size = 10))
+  }
+  
   if(str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == TRUE){
     
     # generates plot of % df/f over time in s
@@ -174,9 +203,37 @@ for (k in 1:length(logfiles)){
             axis.title = element_text(size = 10))
   }
   
-  if((str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == FALSE &
-      str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == FALSE) |
+  if(str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == TRUE &
      str_detect(wormdata$stim_jnl[k], "lightbasal") == TRUE){
+    
+    # generates plot of % df/f over time in s
+    ggplot()+
+      
+      # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+      coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
+      
+      # specifies line plot, & size/color of line
+      geom_line(data = wormdata,
+                mapping = aes(x = time_s, y = dff),
+                color = "black", linewidth = 1)+
+      
+      # specifies plot labels
+      labs(x = "Time (s)",
+           y = "% dF/F",
+           title = "Change in fluorescence over time",
+           subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+           caption = logfiles[k])+
+      
+      
+      # specifies color and size of plot elements
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+            plot.caption = element_text(size = 8, color = "gray30"),
+            axis.title = element_text(size = 10))
+  }
+  
+  if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == FALSE &
+      str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == FALSE){
     # generates plot of % df/f over time in s
     ggplot()+
       
