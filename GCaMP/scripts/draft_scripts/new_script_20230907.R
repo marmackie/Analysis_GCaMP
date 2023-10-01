@@ -1,11 +1,19 @@
 #### General Info ####-------------------------------------------------
 # 
-# This script will be based on the working script for batch analysis of GCaMP data
-# Adjustments made for newest data batch 202307
+# This script will be the current working draft for analyzing GCaMP data
+# Based on the previous working script
+# Adjustments are made for newest data (batch 2023-07)
+# 
+# Part 1 - Reads logfiles, calculates dff, saves data as .csv, and generates dff plot for individual worms
+# Part 2 - Gathers dff values for all worms into one dataframe called dff_all
+# Part 3 - Averages dff values based on Stimulant & JNL condition & stores in a dataframe called avg_all
+# Part 4 - Calculates Standard Error of the Mean
+# Part 5 - Generates Average plots
+# Part 6 - Generates heatmaps
 #
 # created: 2023-09-07; by Marisa Mackie
 # collaborators: Isaiah Martinez
-# edited: 2023-09-17
+# edited: 2023-09-30
 #
 
 #### Load Libraries ####-----------------------------------------------
@@ -54,7 +62,7 @@ dff <- function(data) {
 
 #### Analysis ####-----------------------------------------------------
 
-### Step 1 - Get data & plot dff----
+### Part 1 - Get data & plot dff----
 
 # pre-allocates a dataframe to hold information for convenience later
 # 5 columns, but we will append more rows later
@@ -90,7 +98,7 @@ for (i in 1:length(stim_folders)){
       # adds +1 to worm count
       worm_num = worm_num + 1
       
-      ### Step 1b - Read in data & convert to csv----
+      ### Part 1b - Read in data & convert to csv----
       
       # reads in current logfile into rawdata
       rawdata <- read_log(here("GCaMP","data", "GCaMP_data", stim_folders[i],jnl_folders[j],logfiles[k]))
@@ -124,15 +132,42 @@ for (i in 1:length(stim_folders)){
         # generates plot of % df/f over time in s
         ggplot()+
           
-          # sets x-axis to match time of JNL
-          coord_cartesian(ylim = c(0,180))+
+          # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+          coord_cartesian(xlim = c(0,180), ylim = c(-100,100))+
           
-          # sets y-axis from -100 to 100
-          coord_cartesian(ylim = c(-100,100))+
           
           # adds red vertical line to notable timepoints for stimulant ON & OFF
           geom_vline(xintercept = 10, color = "red")+
           geom_vline(xintercept = 130, color = "red")+
+          
+          # specifies line plot, & size/color of line
+          geom_line(data = wormdata,
+                    mapping = aes(x = time_s, y = dff),
+                    color = "black", linewidth = 1)+
+          
+          # specifies plot labels
+          labs(x = "Time (s)",
+               y = "% dF/F",
+               title = "Change in fluorescence over time",
+               subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+               caption = logfiles[k])+
+          
+          
+          # specifies color and size of plot elements
+          theme(plot.title = element_text(size = 12, face = "bold"),
+                plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+                plot.caption = element_text(size = 8, color = "gray30"),
+                axis.title = element_text(size = 10))
+      }
+      
+      if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == TRUE & 
+         str_detect(wormdata$stim_jnl[k], "lightbasal") == TRUE){
+        
+        # generates plot of % df/f over time in s
+        ggplot()+
+          
+          # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+          coord_cartesian(xlim = c(0,180), ylim = c(-100,100))+
           
           # specifies line plot, & size/color of line
           geom_line(data = wormdata,
@@ -159,11 +194,8 @@ for (i in 1:length(stim_folders)){
         # generates plot of % df/f over time in s
         ggplot()+
           
-          # sets x-axis to match time of JNL
-          coord_cartesian(ylim = c(0,60))+
-          
-          # sets y-axis from -100 to 100
-          coord_cartesian(ylim = c(-100,100))+
+          # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+          coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
           
           # adds red vertical line to notable timepoints for stimulant ON & OFF
           geom_vline(xintercept = 10, color = "red")+
@@ -189,17 +221,42 @@ for (i in 1:length(stim_folders)){
                 axis.title = element_text(size = 10))
       }
       
-      if((str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == FALSE &
-          str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == FALSE) |
+      if(str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == TRUE &
          str_detect(wormdata$stim_jnl[k], "lightbasal") == TRUE){
+        
         # generates plot of % df/f over time in s
         ggplot()+
           
-          # sets x-axis to match time of JNL
-          coord_cartesian(ylim = c(0,60))+
+          # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+          coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
           
-          # sets y-axis from -100 to 100
-          coord_cartesian(ylim = c(-100,100))+
+          # specifies line plot, & size/color of line
+          geom_line(data = wormdata,
+                    mapping = aes(x = time_s, y = dff),
+                    color = "black", linewidth = 1)+
+          
+          # specifies plot labels
+          labs(x = "Time (s)",
+               y = "% dF/F",
+               title = "Change in fluorescence over time",
+               subtitle = paste(str_replace_all(stim_folders[i], "_", " "), jnl_folders[j]),
+               caption = logfiles[k])+
+          
+          
+          # specifies color and size of plot elements
+          theme(plot.title = element_text(size = 12, face = "bold"),
+                plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+                plot.caption = element_text(size = 8, color = "gray30"),
+                axis.title = element_text(size = 10))
+      }
+      
+      if(str_detect(wormdata$stim_jnl[k], "JNL_10off_120on_50off") == FALSE &
+         str_detect(wormdata$stim_jnl[k], "JNL_10off_20on_20off") == FALSE){
+        # generates plot of % df/f over time in s
+        ggplot()+
+          
+          # sets x-axis to match time of JNL & sets y-axis from -100 to 100
+          coord_cartesian(xlim = c(0,60), ylim = c(-100,100))+
           
           # specifies line plot, & size/color of line
           geom_line(data = wormdata,
@@ -262,4 +319,348 @@ for (i in 1:length(stim_folders)){
 # drop first row (Nas) from size_mat
 size_mat <- drop_na(size_mat)
 
-"Part 1 complete! Csv files & individual dff plots generated"
+"Part 1 complete! csv files & individual dff plots generated"
+
+
+#### Part 2 - Gather dff values into dff_all ####-------------
+
+## Part 2a - Determine Max Frames ----
+# points to location of csv file on the computer
+csv_path <- here("GCaMP", "data", "clean_csv")
+# lists all .csv files in that path
+csvfiles <- dir(path = csv_path)
+
+# the maximum number of frames (rows); starts at zero
+max_frames <- 0
+
+# Iterates through each csv file
+# Purpose: determine max number of frames (rows) among all our data (required for dff_all later)
+for (l in 1:length(csvfiles)){
+  
+  # reads in csv files
+  csv_data <- read_csv(here("GCaMP", "data", "clean_csv", csvfiles[l]))
+  
+  # counts current number of rows (frames) in the current csv file
+  frames <- nrow(csv_data)
+  
+  # If current frames (rows) is greater than the max, makes that value the new max. Otherwise, max is unchanged.
+  if(frames > max_frames){
+    max_frames <- frames}
+  
+} # ends iteration through csvfiles
+
+## Part 2b - Put dff in dff_all ----
+
+# pre-allocates a dataframe to store all dff values
+dff_all <- data.frame(matrix(nrow = max_frames, ncol = length(csvfiles)))
+# adds column names as dff_worm{n}
+colnames(dff_all) <- c(paste("dff_worm",(1:length(csvfiles)),sep = ""))
+
+# Iterates through each csv file (i.e., for each worm)
+# Purpose: To grab dff data and store it into dff_all
+for (m in 1:length(csvfiles)){
+  
+  # reads in csv files
+  csv_data <- read_csv(here("GCaMP", "data", "clean_csv", csvfiles[m]))
+  
+  # counts current number of rows (frames) in the current csv file
+  frames <- nrow(csv_data)
+  
+  # stores dff column into dff_all
+  dff_all[1:frames,m] <- csv_data$dff
+  
+} # ends iteration through each csv file
+
+"Part 2 complete!
+Gathered all dff values into dff_all."
+
+
+#### Part 3 - Average dff values by Stimulant + Journal ####-------------
+
+# pre-allocates a dataframe to store all average dff values (averaged by journal)
+avg_all <- data.frame(matrix(nrow = max_frames, ncol = nrow(size_mat)))
+# adds column names as stim_jnl{n}
+colnames(avg_all) <- c(paste("stim_jnl",(1:nrow(size_mat)),sep = ""))
+
+# iterates over each row in size_mat (i.e., m = the current stim_jnl)
+for (n in 1:nrow(size_mat)){
+  
+  # if first stim_jnl, starts with 1st worm
+  ifelse(n == 1, start_worm <-  1,
+         # else, starts with 1st worm of the current journal
+         start_worm <- size_mat$jnl_start[n])
+  
+  # ending worm = final worm of current stim_jnl
+  end_worm <- size_mat$worm_num[n]
+  
+  # calculates averages across rows for worms belonging to the same stim_jnl (excludes NAs) & stores in avg_all
+  ifelse(start_worm == end_worm,
+         # if only 1 worm in current stim_jnl, maintains value
+         avg_all[n] <- dff_all[,start_worm:end_worm],
+         # else calculate row means from start worm to end worm
+         avg_all[1:size_mat$minframes[n],n] <- rowMeans(dff_all[1:size_mat$minframes[n],start_worm:end_worm], na.rm = TRUE))
+  
+} # ends iteration for each jnl (row in size_mat)
+
+"Part 3 complete!
+Average dff calculated and stored in avg_all"
+
+### Part 4 - Calculating SEM -----
+# Calculates standard error of the mean
+
+# SEM_cols will hold the number of columns we should use for SEM_all
+SEM_cols <- 0
+# SEM_names will hold the names of the journals that have >1 worm
+SEM_names <- c()
+SEM_index <- c()
+# Finds value of SEM_cols by summing the number of journals that have >1 worm
+for (n in 1:nrow(size_mat)){
+  if(size_mat$sample_size[n] > 1){
+    # adds one to our count of SEM_cols
+    SEM_cols <- SEM_cols + 1
+    # appends new row to SEM_names with next JNL number
+    SEM_names[SEM_cols] = size_mat$stim_jnl[n]
+    SEM_index[SEM_cols] = n
+  }
+}
+
+# pre-allocates a dataframe to store all SEM values (by journal)
+SEM_all <- data.frame(matrix(nrow = max_frames, ncol = SEM_cols))
+# adds column names as stim_jnl{n}
+colnames(SEM_all) <- SEM_names
+
+# iterates over each row in size_mat (i.e., n = the current stim_jnl)
+for (n in 1:length(SEM_names)){
+  
+  # SEM_index[n] == index of journal
+  # determines starting and ending worm
+  
+  start_worm <- size_mat$jnl_start[SEM_index[n]]
+  
+  end_worm <- size_mat$worm_num[SEM_index[n]]
+  
+  # calculate row SEMs from start worm to end worm for each stim_jnl
+  SEM_all[1:size_mat$minframes[SEM_index[n]],n] <- rowSEMs(dff_all[1:size_mat$minframes[SEM_index[n]],start_worm:end_worm])
+  
+} # ends iteration for each jnl (row in size_mat)
+
+"Part 4 complete!
+SEM calculated"
+
+### Part 5 - Plotting Average dff -----
+# Will plot average dff with SEM for all JNLs with >1 worm
+
+# dataframe to store time information (to use for plotting later)
+time_data <- data.frame(time = wormdata$time_s)
+
+# iterates for each journal (# of rows in size_mat)
+for (o in 1:length(SEM_all)){
+  
+  # Note: Problem here. Need to change how to do the plotting. Found out that
+  # coord_cartesian() function is better for setting x and y limits than using
+  # scale_x & scale_y_continuous(). Also, need to change what str_detect()
+  # will base plot off of to new system (see individual dff plotting for reference)
+  # Please change this before plotting.
+  
+  # Generates avg plot for 3 min JNL
+  if(str_detect(size_mat$stim_jnl[SEM_index[o]], "JNL_10off_120on_50off") == TRUE){
+    
+    # creates dataframe plot_data with time & dff data
+    plot_data <- data.frame(x = time_data[1:size_mat$minframes[SEM_index[o]],],
+                            y = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]],
+                            pSEM = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]] + SEM_all[1:size_mat$minframes[SEM_index[o]],o],
+                            nSEM = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]] - SEM_all[1:size_mat$minframes[SEM_index[o]],o])
+    
+    # make plot
+    ggplot(plot_data,
+           mapping = aes(x = x,
+                         y = y,
+                         ymax = pSEM,
+                         ymin = nSEM))+
+      
+      # x axis scales by 10, from 0-180s
+      scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
+      
+      # sets y-axis  
+      coord_cartesian(ylim = c(-100,60))+
+      
+      # y axis scales y by 10
+      scale_y_continuous(breaks = seq(from = -100, to = 100, by=10))+
+      
+      # adds red vertical line to notable timepoints for stimulant ON & OFF
+      geom_vline(xintercept = 10, color = "red")+
+      geom_vline(xintercept = 130, color = "red")+
+      
+      # specifies line plot, & size/color of line
+      geom_line(color = "blue", linewidth = 0.6)+
+      
+      geom_ribbon(alpha = 0.5)+
+      
+      # specifies plot labels
+      labs(x = "Time (s)",
+           y = "% dF/F",
+           title = "Average Change in fluorescence over time",
+           subtitle = size_mat$stim_jnl[SEM_index[o]])+ # current stimulant + jnl
+      
+      # specifies color and size of plot elements
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+            plot.caption = element_text(size = 8, color = "gray30"),
+            axis.title = element_text(size = 10))
+  }
+  
+  # Generates avg plot for 1 min JNL
+  if(str_detect(size_mat$stim_jnl[SEM_index[o]], "JNL_10off_20on_20off") == TRUE){
+    
+    # creates dataframe plot_data with time & dff data
+    plot_data <- data.frame(x = time_data[1:size_mat$minframes[SEM_index[o]],],
+                            y = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]],
+                            pSEM = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]] + SEM_all[1:size_mat$minframes[SEM_index[o]],o],
+                            nSEM = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]] - SEM_all[1:size_mat$minframes[SEM_index[o]],o])
+    
+    # make plot
+    ggplot(plot_data,
+           mapping = aes(x = x,
+                         y = y,
+                         ymax = pSEM,
+                         ymin = nSEM))+
+      
+      # x axis scales by 10, from 0-60s
+      scale_x_continuous(breaks = seq(from = 0, to = 60, by = 10))+
+      
+      # sets y-axis  
+      coord_cartesian(ylim = c(-100,60))+
+      
+      # y axis scales y by 10
+      scale_y_continuous(breaks = seq(from = -100, to = 100, by=10))+
+      
+      # adds red vertical line to notable timepoints for stimulant ON & OFF
+      geom_vline(xintercept = 10, color = "red")+
+      geom_vline(xintercept = 30, color = "red")+
+      
+      # specifies line plot, & size/color of line
+      geom_line(color = "blue", linewidth = 0.6)+
+      
+      geom_ribbon(alpha = 0.5)+
+      
+      # specifies plot labels
+      labs(x = "Time (s)",
+           y = "% dF/F",
+           title = "Average Change in fluorescence over time",
+           subtitle = size_mat$stim_jnl[SEM_index[o]])+ # current stimulant + jnl
+      
+      # specifies color and size of plot elements
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+            plot.caption = element_text(size = 8, color = "gray30"),
+            axis.title = element_text(size = 10))
+  }
+  
+  # Generates avg plot for all other JNLs (no red lines)
+  if(str_detect(size_mat$stim_jnl[SEM_index[o]], "JNL_10off_120on_50off") == FALSE &
+     str_detect(size_mat$stim_jnl[SEM_index[o]], "JNL_10off_20on_20off") == FALSE){
+    
+    # creates dataframe plot_data with time & dff data
+    plot_data <- data.frame(x = time_data[1:size_mat$minframes[SEM_index[o]],],
+                            y = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]],
+                            pSEM = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]] + SEM_all[1:size_mat$minframes[SEM_index[o]],o],
+                            nSEM = avg_all[1:size_mat$minframes[SEM_index[o]],SEM_index[o]] - SEM_all[1:size_mat$minframes[SEM_index[o]],o])
+    
+    # make plot
+    ggplot(plot_data,
+           mapping = aes(x = x,
+                         y = y,
+                         ymax = pSEM,
+                         ymin = nSEM))+
+      
+      # x axis scales by 10, from 0-60s
+      scale_x_continuous(breaks = seq(from = 0, to = 180, by = 10))+
+      
+      # sets y-axis  
+      coord_cartesian(ylim = c(-100,60))+
+      
+      # y axis scales y by 10
+      scale_y_continuous(breaks = seq(from = -100, to = 100, by=10))+
+      
+      # specifies line plot, & size/color of line
+      geom_line(color = "blue", linewidth = 0.6)+
+      
+      geom_ribbon(alpha = 0.5)+
+      
+      # specifies plot labels
+      labs(x = "Time (s)",
+           y = "% dF/F",
+           title = "Average Change in fluorescence over time",
+           subtitle = size_mat$stim_jnl[SEM_index[o]])+ # current stimulant + jnl
+      
+      # specifies color and size of plot elements
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            plot.subtitle = element_text(size = 10, color = "saddlebrown"),
+            plot.caption = element_text(size = 8, color = "gray30"),
+            axis.title = element_text(size = 10))
+  }
+  
+  
+  # saves plot to output folder, and names it by worm folder name
+  ggsave(here("GCaMP","output","average_dff",paste("plot",size_mat$stim_jnl[SEM_index[o]],".png", sep = "-")),
+         width = 6, height = 6)
+  
+} # ends iteration
+
+"Part 5 complete - Average dff plots generated! (see outputs)"
+
+
+#### Part 6 - Generate Heatmap ####----------
+
+### For heatmap (using heatmap() function)
+
+# Color palette for heatmap
+colors <- colorRampPalette(c("blue","lavenderblush4", "darkorange"))
+
+# converts NA to 0
+dff_zeros <- data.frame(dff_all)
+dff_zeros[is.na(dff_zeros)] = 0
+
+# converts dff_all to a numeric matrix called dff_mat
+dff_mat <- as.matrix(dff_zeros)
+
+# iterates over each row in size_mat (i.e., m = the current stim_jnl)
+for (n in 1:nrow(size_mat)){
+  
+  # if first stim_jnl, starts with 1st worm
+  ifelse(n == 1, start_worm <-  1,
+         # else, starts with 1st worm of the current journal
+         start_worm <- size_mat$jnl_start[n])
+  
+  # ending worm = final worm of current stim_jnl
+  end_worm <- size_mat$worm_num[n]
+  
+  # makes heatmap for JNLs with >1 worm
+  if(start_worm != end_worm){
+    temp_mat <- as.matrix(dff_mat[1:size_mat$minframes[n],start_worm:end_worm])
+    
+    # saves heatmap as png file to heatmaps folder
+    png(file = here("GCaMP", "output", "heatmaps", paste("heatmap",size_mat$stim_jnl[n],'.png')),
+        width = 6, height = 6, units = "in", res = 1000, par(pin = c(0,0)))
+    
+    # generates heatmap
+    dff_heatmap <- heatmap.2(t(temp_mat), 
+                             # specifies heatmap labels
+                             xlab = "Time (ms)", ylab = 'Animals', main = "Change in fluorescence over Time 
+for each Animal", key.title = '% dF/F', 
+                             # removes row names & lines
+                             labRow = FALSE, trace ='none',
+                             # removes dendrogram stuff
+                             Colv= FALSE, Rowv = FALSE, dendrogram = 'none', 
+                             # specifies colors
+                             col = colors, na.color = "white")
+    
+    dev.off()
+  } # ends if
+  
+} # ends iteration
+
+"Part 6 complete - Heatmaps generated (See outputs)"
+
+
+"done"
